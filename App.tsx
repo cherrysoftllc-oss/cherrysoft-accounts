@@ -2851,7 +2851,7 @@ function App(){
         setHydrated(true);
       }catch(e){
         setDriveStatus("error");setDriveError(`Couldn't load: ${e.message}`);
-        applyLoadedData({});  // show app with defaults rather than spinning forever
+        applyLoadedData({});
         setHydrated(true);
       }
     })();
@@ -3346,9 +3346,6 @@ function App(){
       logsToAdd.forEach(l=>{l.txnIds=keptIdsBySource[l.file]||[];});
       setTxns(prev=>{
         const next=[...prev,...kept];
-        // New bank rows may include client receipts — match them against outstanding invoices
-        // right away. Use the functional-update form so `next` includes ALL previously imported
-        // txns (not the stale closure value of `txns` at the time this import handler ran).
         if(kept.length)setInvoices(inv=>autoMatch(inv,next));
         return next;
       });
@@ -3811,12 +3808,12 @@ function App(){
       const known=findKnownAccount(m.account,new Set(coa.filter(a=>a.sub!=="Cash & Bank").map(a=>a.name)));
       if(!known)return t;
       swept++;
-      return{...t,contraAccount:known,matched:true,label:m.label||t.label,clientHint:m.client||t.clientHint||\"\"};
+      return{...t,contraAccount:known,matched:true,label:m.label||t.label,clientHint:m.client||t.clientHint||""};
     });
     setTxns(next);
     if(swept){
-      immediateSave({txns:next}); // a manual sweep the user explicitly triggered — must not ride the 800ms debounce, same as any other one-off categorization action
-      setInvoices(prev=>autoMatch(prev,next)); // newly-clientHinted AR receipts should update invoice paid amounts right away
+      immediateSave({txns:next});
+      setInvoices(prev=>autoMatch(prev,next));
     }
     if(!silent)showToast(swept?`Rules applied — ${swept} Suspense transaction(s) categorised`:"No Suspense transactions matched current rules");
     return swept;
@@ -3860,12 +3857,12 @@ function App(){
         const known=findKnownAccount(m.account,new Set(coa.filter(a=>a.sub!=="Cash & Bank").map(a=>a.name)));
         if(!known)return t;
         swept++;
-        return{...t,contraAccount:known,matched:true,label:m.label||t.label};
+        return{...t,contraAccount:known,matched:true,label:m.label||t.label,clientHint:m.client||t.clientHint||""};
       });
     }
     setTxns(nextTxns);
     setRules(nextRules);
-    setInvoices(prev=>autoMatch(prev,nextTxns)); // if this was an AR receipt, update invoice paid amounts immediately
+    setInvoices(prev=>autoMatch(prev,nextTxns));
     immediateSave({txns:nextTxns,rules:nextRules});
     showToast(savingRule
       ?`Categorised as ${account} — rule saved${swept?`, applied to ${swept} more Suspense transaction(s) right now`:" for future imports"}`
