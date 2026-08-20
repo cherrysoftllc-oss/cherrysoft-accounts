@@ -177,19 +177,37 @@ function mergeDefaultRules(savedRules){
 }
 
 const DEFAULT_RULES=[
-  {trigger:"Sharif Payment Bank_CS",      account:"Accounts Receivable",             label:"Sharif Receipt",     client:"Sharif Carpentry and Decor LLC"},
   {trigger:"Sharif Carpentry",            account:"Accounts Receivable",             label:"Sharif Receipt",     client:"Sharif Carpentry and Decor LLC"},
-  {trigger:"GoldenTower Payment Bank_CS", account:"Accounts Receivable",             label:"GoldenTower Receipt",client:"Golden Tower Metal Industries"},
-  {trigger:"GoldenTower",                 account:"Accounts Receivable",             label:"GoldenTower Receipt",client:"Golden Tower Metal Industries"},
-  {trigger:"Visionwood Payment Bank_CS",  account:"Accounts Receivable",             label:"Visionwood Receipt", client:"VisionWood International LLC"},
+  {trigger:"Golden Tower",                account:"Accounts Receivable",             label:"Golden Tower Receipt",client:"Golden Tower Metal Industries"},
   {trigger:"Visionwood",                  account:"Accounts Receivable",             label:"Visionwood Receipt", client:"VisionWood International LLC"},
+  {trigger:"GT-047", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-048", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-049", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-050", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-051", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-052", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-053", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-054", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-055", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-056", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-057", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-058", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-059", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-060", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-061", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-062", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-063", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-064", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-065", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-066", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-067", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-068", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
+  {trigger:"GT-069", account:"Accounts Receivable", label:"Golden Tower Receipt", client:"Golden Tower Metal Industries"},
   {trigger:"Staff Accommodation",         account:"Staff Accommodation Rent",        label:"Staff Accommodation"},
   {trigger:"Staff Salary",                account:"Staff Salaries",                  label:"Staff Salaries"},
   {trigger:"House Rent",                  account:"Personal - House Rent",           label:"House Rent"},
   {trigger:"Office Rent",                 account:"Office Rent",                     label:"Office Rent"},
   {trigger:"DEWA",                        account:"Electricity - Business Premises", label:"DEWA"},
-  {trigger:"BankCharges",                 account:"Bank Fees and Charges",           label:"Bank Charges"},
-  {trigger:"Bank charges",               account:"Bank Fees and Charges",            label:"Bank Charges"},
   {trigger:"Bank Charges",               account:"Bank Fees and Charges",            label:"Bank Charges"},
   {trigger:"SVC-",                        account:"Bank Fees and Charges",           label:"Bank Service Fee"},
   {trigger:"Salik",                       account:"Salik Road Toll - Business",      label:"Salik"},
@@ -201,7 +219,6 @@ const DEFAULT_RULES=[
   // near applyRules — so it no longer needs to be hand-listed here per account. What remains
   // below are phrasings a plain name-match wouldn't catch on its own: different wording some
   // exports use, and RK_Cash's "P-EXP" shorthand code.
-  {trigger:"To Petty Cash_PJ",          account:"PettyCash_PJ",                  label:"Petty Cash PJ"},
   {trigger:"Petty Cash_PJ",             account:"PettyCash_PJ",                  label:"Petty Cash PJ"},
   {trigger:"Transfer from CS",          account:"Bank_CS",                         label:"Transfer from CS"},
   {trigger:"From Bank-CS",              account:"Bank_CS",                         label:"Transfer from CS"},
@@ -487,21 +504,19 @@ function applyRules(triggerVal, descVal, rules, sourceAccount, rawDescVal){
   // narrations are common), so a rule authored against "Office Rent" must still fire against
   // "office rent" or "OFFICE RENT". Only the comparison is case-folded; the original text
   // (t/d/raw) is untouched so downstream label/description text keeps its real casing.
-  const t=String(triggerVal||descVal||"").toLowerCase();
+  const t=String(triggerVal||"").toLowerCase();
   const d=String(descVal||"").toLowerCase();
   const raw=String(rawDescVal!==undefined&&rawDescVal!==null?rawDescVal:(triggerVal||descVal||"")).toLowerCase();
   for(const r of rules){
     if(r.sourceAccount&&r.sourceAccount!==sourceAccount)continue;
     if(sourceAccount&&resolveAccount(r.account)===sourceAccount)continue;
-    const trigLower=String(r.trigger||"").toLowerCase();
+    const trigLower=String(r.trigger||"").toLowerCase().replace(/\s+/g," ").trim();
+    const tNorm=t.replace(/\s+/g," ").trim();
     if(r.exact){
-      // Exact match — compares against the raw, isolated field (not the description+reference
-      // +details concatenation used for contains-matching below), since "the whole field equals
-      // the trigger" only means something against a single field, not a joined search string.
-      const trig=trigLower.trim();
-      if(raw.trim()===trig||(triggerVal&&String(triggerVal).toLowerCase().trim()===trig))return r;
+      const trig=trigLower;
+      if(tNorm===trig||(triggerVal&&String(triggerVal).toLowerCase().replace(/\s+/g," ").trim()===trig))return r;
     }else{
-      if(t.includes(trigLower)||d.includes(trigLower))return r;
+      if(tNorm.includes(trigLower)||d.replace(/\s+/g," ").trim().includes(trigLower))return r;
     }
   }
   return null;
@@ -1436,7 +1451,7 @@ function printInvoice(inv){ if(_setPrintInv) _setPrintInv(inv); }
 // "google-drive": uses your own Google Drive — works on any device/browser, but needs the
 // one-time Google Cloud OAuth setup (see README below) before it'll do anything.
 // Switch this one constant when ready to move to Drive — everything else is already wired.
-const PERSISTENCE_MODE="claude-storage"; // App.tsx (Claude artifact preview) uses Claude's own storage so it's fully interactive here — index.html (Netlify) stays on "google-drive" for real production use
+const PERSISTENCE_MODE="google-drive"; // Data lives in cherrysoft.llc@gmail.com Google Drive. Falls back to localStorage if Drive unavailable.
 const CLAUDE_STORAGE_KEY="cherrysoft_accounts_data_v7";
 // ── Two real backends, used together ─────────────────────────────────────
 // 1) window.storage — only exists when this app is actually being *run* inside a live
@@ -1569,7 +1584,31 @@ async function loadFromDrive(token){
   const text=await driveDownloadFile(token,file.id);
   return{data:JSON.parse(text),fileId:file.id};
 }
+async function saveDailyBackupToDrive(token,data){
+  // Creates/updates a dated backup file in Drive separate from the live data file.
+  // Only runs once per calendar day (checked via localStorage flag).
+  const today=new Date().toISOString().slice(0,10);
+  const flagKey="CherrySoft_LastDailyBackup";
+  try{
+    if(localStorage.getItem(flagKey)===today)return; // already backed up today
+  }catch(e){}
+  const backupName=`CherrySoft_Backup_${today}.json`;
+  const payload=JSON.stringify({_type:"daily_backup",date:today,...data},(_,v)=>v instanceof Date?v.toISOString():v);
+  const metadata={name:backupName,mimeType:"application/json"};
+  const boundary="cherrysoft_bkp_"+Date.now();
+  const body=`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${payload}\r\n--${boundary}--`;
+  try{
+    const res=await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",{
+      method:"POST",
+      headers:{Authorization:`Bearer ${token}`,"Content-Type":`multipart/related; boundary=${boundary}`},
+      body
+    });
+    if(res.ok){try{localStorage.setItem(flagKey,today);}catch(e){}}
+  }catch(e){}
+}
 async function saveToDrive(token,fileId,data){
+  // Also mirror to localStorage so data survives a Drive token expiry or offline session.
+  try{localStorage.setItem("CherrySoft_LocalBackup",JSON.stringify({...data,savedAt:new Date().toISOString()},(_,v)=>v instanceof Date?v.toISOString():v));}catch(e){}
   // _schema documents the shape for any human or AI opening this file directly in Drive.
   const payload=JSON.stringify({
     _schema:"CherrySoft Accounts data file. txns=ledger transactions, invoices=AR invoices with .allocations linking to txn ids that paid them, coa=chart of accounts, rules=auto-categorisation rules matched against transaction trigger/description text, extraSrc=import-source overrides, aliasOverrides=raw-text-to-account-name redirects (see ALIASES in code), customers/items/vendors=masters, importLog=history of file imports, importedFileHashes=dedup guard against re-importing the same file twice. Safe to hand-edit if you understand the shape — this app will read whatever's here on next load.",
@@ -2870,7 +2909,13 @@ function App(){
         setDriveStatus("ready");
         setHydrated(true);
       }catch(e){
+        // Drive failed — try localStorage fallback so app still loads with latest local data
+        try{
+          const local=localStorage.getItem("CherrySoft_LocalBackup");
+          if(local){applyLoadedData(JSON.parse(local));}
+        }catch(le){}
         setDriveStatus("error");setDriveError(`Couldn't load from Drive: ${e.message}`);
+        setHydrated(true);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -3035,6 +3080,8 @@ function App(){
       const runSave=async()=>{
         const id=await saveToDrive(driveToken,driveFileIdRef.current,payload);
         if(!driveFileIdRef.current)setDriveFileIdBoth(id);
+        // Fire-and-forget daily backup — won't block or throw
+        saveDailyBackupToDrive(driveToken,payload).catch(()=>{});
       };
       // Chain onto the queue regardless of whether the PREVIOUS save succeeded or failed (an
       // earlier network blip shouldn't permanently jam every save after it) — but only run
@@ -5975,6 +6022,23 @@ function App(){
             </p>
             <button style={{...S.btn(),marginTop:8}} onClick={async()=>{const ok=await flushSave(latestPayloadRef.current||{txns,invoices,coa,rules,extraSrc,aliasOverrides,customers,items,vendors,invoiceTemplates,defaultTemplateId,importLog,importedFileHashes,dismissedDuplicates});if(ok)showToast("Autosave is working again");}}>↻ Retry Autosave Now</button>
           </>}
+        </div>
+        {/* ── Google Drive Sync Card ── always visible so user can connect Drive even in claude-storage mode */}
+        <div style={{...S.card,border:`1px solid ${C.accent}`}}>
+          <div style={{...S.cardT,color:C.accent}}>☁ Google Drive Sync</div>
+          {PERSISTENCE_MODE==="google-drive"&&driveStatus==="ready"&&<>
+            <p style={{color:C.green,fontSize:12,lineHeight:1.8,marginBottom:10}}>✓ Connected — data saves automatically to <strong>CherrySoft_Accounts_Data.json</strong> in your Drive. Daily backup files are also created automatically.</p>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              <button style={S.btn()} onClick={async()=>{try{const{data,fileId}=await loadFromDrive(driveToken);if(fileId){setDriveFileIdBoth(fileId);applyLoadedData(data||{});showToast("Restored latest Drive data");}else{showToast("No Drive file found","err");}}catch(e){showToast(`Drive error: ${e.message}`,"err");}}}>↓ Pull latest from Drive</button>
+              <button style={S.btn()} onClick={async()=>{const ok=await flushSave(latestPayloadRef.current||{txns,invoices,coa,rules,extraSrc,aliasOverrides,customers,items,vendors,invoiceTemplates,defaultTemplateId,importLog,importedFileHashes,dismissedDuplicates});showToast(ok?"Pushed to Drive":"Drive save failed","err");}}>↑ Push now to Drive</button>
+            </div>
+          </>}
+          {PERSISTENCE_MODE==="google-drive"&&driveStatus!=="ready"&&<>
+            <p style={{color:C.textMuted,fontSize:12,lineHeight:1.8,marginBottom:10}}>Sign in with your Google account to load and save all data to Drive. Works on any device — just sign in again.</p>
+            <button style={S.btn("primary")} onClick={driveSignIn}>Sign in with Google</button>
+            {driveStatus==="error"&&<p style={{color:C.red,fontSize:11,marginTop:8}}>{driveError}</p>}
+          </>}
+          {PERSISTENCE_MODE!=="google-drive"&&<p style={{color:C.textMuted,fontSize:12,lineHeight:1.8}}>This build uses localStorage. To enable live Drive sync on all devices, set PERSISTENCE_MODE to "google-drive" in App.tsx and redeploy.</p>}
         </div>
         <div style={S.card}>
           <div style={S.cardT}>↺ Restore Last Autosave</div>
