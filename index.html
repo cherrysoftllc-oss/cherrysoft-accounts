@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CherrySoft Pro v4.1</title>
+  <script src="https://accounts.google.com/gsi/client"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Roboto, sans-serif; background: #0b0d11; color: #e0e0e0; overflow: hidden; }
+    
+    /* THE GRID LAYOUT - Fixes the "Missing Buttons" issue */
+    .app-container {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* SIDEBAR GRID */
+    .sidebar {
+      background: #151921;
+      border-right: 1px solid #2d333f;
+      display: grid;
+      grid-template-rows: auto 1fr auto; /* Top, Middle(scroll), Bottom(fixed) */
+      height: 100vh;
+    }
+
+    .sidebar-top { padding: 20px; border-bottom: 1px solid #2d333f; background: #1a1f29; }
+    .sidebar-menu { padding: 10px; overflow-y: auto; }
+    .sidebar-bottom { padding: 15px; background: #0f1218; border-top: 1px solid #2d333f; }
+
+    .nav-btn {
+      width: 100%; padding: 12px 15px; margin-bottom: 5px;
+      border: none; border-radius: 6px; background: transparent;
+      color: #94a3b8; text-align: left; cursor: pointer; font-size: 14px;
+      transition: all 0.2s;
+    }
+    .nav-btn.active { background: #6c63ff; color: white; font-weight: bold; }
+    .nav-btn:hover:not(.active) { background: #252b37; color: white; }
+
+    .action-btn {
+      width: 100%; padding: 12px; border-radius: 6px; border: none;
+      font-weight: bold; cursor: pointer; margin-bottom: 8px; font-size: 13px;
+    }
+    .btn-sync { background: #10b981; color: white; }
+    .btn-exit { background: #ef4444; color: white; }
+
+    .main-content { padding: 30px; overflow-y: auto; background: #0b0d11; }
+    
+    /* LOADING OVERLAY */
+    .loader-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; z-index: 9999;
+    }
+    
+    .status-bar {
+      background: #1a1f29; padding: 10px 20px; border-radius: 8px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 25px; border: 1px solid #2d333f;
+    }
+
+    .card { background: #151921; padding: 20px; border-radius: 12px; border: 1px solid #2d333f; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    const { useState, useEffect, useMemo } = React;
+
+    function App() {
+      const [token, setToken] = useState(null);
+      const [companies, setCompanies] = useState([]);
+      const [activeCompany, setActiveCompany] = useState(null);
+      const [page, setPage] = useState('dashboard');
+      const [txns, setTxns] = useState([]);
+      const [loading, setLoading] = useState(false);
+      const [status, setStatus] = useState('Ready');
+
+      // 1. SIGN IN
+      const signIn = () => {
+        const client = google.accounts.oauth2.initTokenClient({
+          client_id: "776879016217-n44v4jsv2fnfemifb4dj2ga328aa82fn.apps.googleusercontent.com",
+          scope: "https://www.googleapis.com/auth/drive.file",
+          callback: (res) => setToken(res.access_token)
+        });
+        client.requestAccessToken();
+      };
+
+      // 2. DRIVE HELPERS
+      async function driveReq(url, method = 'GET', body = null) {
+        const options = { method, headers: { Authorization: `Bearer ${token}` } };
+        if (body) {
+            if (body instanceof FormData) options.body = body;
+            else {
+                options.headers['Content-Type'] = 'application/json';
+                options.body = JSON.stringify(body);
+            }
+        }
+        const res = await fetch(url, options);
+        return res.ok ? res.json() : null;
+      }
+
+      async function findFile(name) {
+        const data = await driveReq(`https://www.googleapis.com/drive/v3/files?q=name='${name}' and trashed=false`);
+        return data?.files?.[0] || null;
+      }
+
+      async function uploadFile(name, content) {
+        setStatus('Saving to Cloud...');
+        const file = await findFile(name);
+        const metadata = { name, mimeType: 'application/json' };
+        
+        const form = new FormData();
+        form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+        form.append('file', new Blob([JSON.stringify(content)], { type: 'application/json' }));
+
+        const url = file 
+            ? `https://www.googleapis.com/upload/drive/v3/files/${file.id}?uploadType=multipart`
+            : `https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart`;
+        
+        await fetch(url, { method: file ? 'PATCH' : 'POST', headers: { Authorization: `Bearer ${token}` }, body: form });
+        setStatus('Ready');
+      }
+
+      // 3. LOAD DATA ON SELECT
+      useEffect(() => {
+        if (activeCompany && token) {
+          setLoading(true);
+          findFile(`Data_${activeCompany.slug}.json`).then(async (file) => {
+            if (file) {
+              const res = await fetch(`https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, { headers: { Authorization: `Bearer ${token}` } });
+              const data = await res.json();
+              setTxns(data.txns || []);
+            } else {
+              setTxns([]);
+            }
+            setLoading(false);
+          });
+        }
+      }, [activeCompany, token]);
+
+      // 4. LOAD INDEX ON START
+      useEffect(() => {
+        if (token) {
+          findFile('CherrySoft_Index.json').then(async (file) => {
+            if (file) {
+                const res = await fetch(`https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`, { headers: { Authorization: `Bearer ${token}` } });
+                const data = await res.json();
+                setCompanies(data.companies || []);
+            }
+          });
+        }
+      }, [token]);
+
+      if (!token) {
+        return (
+          <div style={{height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center'}}>
+            <div>
+              <h1 style={{fontSize:40, color:'#6c63ff', marginBottom:10}}>CherrySoft Pro</h1>
+              <p style={{color:'#94a3b8', marginBottom:30}}>Cloud Accounting Engine v4.1</p>
+              <button onClick={signIn} style={{padding:'15px 40px', background:'#6c63ff', border:'none', color:'white', borderRadius:8, cursor:'pointer', fontWeight:'bold'}}>Connect Google Account</button>
+            </div>
+          </div>
+        );
+      }
+
+      if (!activeCompany) {
+        return (
+          <div style={{padding:50, maxWidth:800, margin:'0 auto'}}>
+            <h2 style={{marginBottom:30}}>Your Companies</h2>
+            <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:20}}>
+              {companies.map(c => (
+                <div key={c.slug} onClick={() => setActiveCompany(c)} className="card" style={{cursor:'pointer', borderLeft:'5px solid #6c63ff'}}>
+                  <h3>{c.name}</h3>
+                  <p style={{fontSize:12, color:'#94a3b8', marginTop:5}}>Click to open ledger</p>
+                </div>
+              ))}
+              <div className="card" style={{border:'2px dashed #2d333f'}}>
+                 <input id="newCo" placeholder="Enter Company Name" style={{width:'100%', padding:10, background:'#0b0d11', border:'1px solid #2d333f', color:'white', marginBottom:10}} />
+                 <button onClick={() => {
+                    const name = document.getElementById('newCo').value;
+                    const slug = name.toLowerCase().replace(/\s+/g, '_');
+                    const newList = [...companies, {name, slug}];
+                    setCompanies(newList);
+                    uploadFile('CherrySoft_Index.json', {companies: newList});
+                 }} style={{width:'100%', padding:10, background:'#6c63ff', border:'none', color:'white', borderRadius:5}}>+ Create Company</button>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="app-container">
+          {loading && <div className="loader-overlay"><h1>⌛ Loading Data...</h1><p>Fetching from Google Drive</p></div>}
+          
+          {/* SIDEBAR */}
+          <aside className="sidebar">
+            <div className="sidebar-top">
+              <h2 style={{color:'#6c63ff'}}>CherrySoft</h2>
+              <div style={{fontSize:11, color:'#94a3b8', marginTop:5}}>🏢 {activeCompany.name}</div>
+            </div>
+
+            <nav className="sidebar-menu">
+              {['Dashboard', 'Banking', 'Invoices', 'Expenses', 'Reports', 'Settings'].map(m => (
+                <button key={m} onClick={() => setPage(m.toLowerCase())} className={`nav-btn ${page === m.toLowerCase() ? 'active' : ''}`}>
+                  {m}
+                </button>
+              ))}
+            </nav>
+
+            <div className="sidebar-bottom">
+              <button className="action-btn btn-sync" onClick={() => uploadFile(`Data_${activeCompany.slug}.json`, {txns})}>
+                {status === 'Ready' ? '💾 SYNC TO CLOUD' : status}
+              </button>
+              <button className="action-btn btn-exit" onClick={() => { setActiveCompany(null); setPage('dashboard'); }}>
+                🚪 SAVE & EXIT
+              </button>
+            </div>
+          </aside>
+
+          {/* MAIN CONTENT */}
+          <main className="main-content">
+            <div className="status-bar">
+              <div style={{fontWeight:'bold'}}>Module: <span style={{color:'#6c63ff', textTransform:'uppercase'}}>{page}</span></div>
+              <div style={{fontSize:12, color: status === 'Ready' ? '#10b981' : '#f59e0b'}}>● Cloud Status: {status}</div>
+            </div>
+
+            {page === 'dashboard' ? (
+              <div>
+                <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:20, marginBottom:30}}>
+                  <div className="card"><h4>Transactions</h4><p style={{fontSize:24}}>{txns.length}</p></div>
+                  <div className="card"><h4>Sync Points</h4><p style={{fontSize:24}}>Google Drive</p></div>
+                  <div className="card"><h4>Security</h4><p style={{fontSize:24}}>OAuth2</p></div>
+                </div>
+                <div className="card">
+                    <h3>Getting Started</h3>
+                    <p style={{color:'#94a3b8', marginTop:10}}>Go to "Banking" to upload your CSV or "Invoices" to manage revenue.</p>
+                </div>
+              </div>
+            ) : (
+              <div className="card" style={{textAlign:'center', padding:'100px 0'}}>
+                <h3>{page.toUpperCase()} VIEW</h3>
+                <p style={{color:'#94a3b8'}}>This module is connected to Data_{activeCompany.slug}.json</p>
+              </div>
+            )}
+          </main>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
