@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CherrySoft Accounts Pro</title>
+  <!-- Libraries -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f1117; --surface: #1a1d27; --surface-alt: #21253a;
+      --border: #2a2f47; --accent: #6c63ff; --text: #e8eaf6;
+      --text-muted: #7b82a8; --green: #2dd4a0; --red: #f26565; --amber: #f5a623;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+    #root { height: 100vh; width: 100vw; display: flex; }
+    
+    /* Layout */
+    .sidebar { width: 240px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flexDirection: column; height: 100vh; flex-shrink: 0; }
+    .main-content { flex: 1; overflow-y: auto; padding: 30px; height: 100vh; position: relative; }
+    
+    /* Navigation */
+    .nav-header { padding: 25px 20px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+    .nav-section { padding: 15px 20px 5px; font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+    .nav-item { padding: 12px 20px; cursor: pointer; color: var(--text-muted); font-size: 13px; transition: 0.2s; display: flex; align-items: center; gap: 10px; }
+    .nav-item:hover { background: var(--surface-alt); color: var(--text); }
+    .nav-item.active { background: var(--accent); color: white; font-weight: 600; }
+
+    /* UI Elements */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .kpi-card { background: var(--surface-alt); border: 1px solid var(--border); padding: 20px; border-radius: 10px; }
+    
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 12px; color: var(--text-muted); font-size: 11px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
+    
+    button { padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 12px; }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-danger { background: var(--red); color: white; }
+    
+    input, select { background: var(--surface-alt); border: 1px solid var(--border); color: white; padding: 10px; border-radius: 8px; width: 100%; font-size: 13px; margin-top: 5px; }
+    label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+
+    .error-box { background: #3a1a1a; color: #ff8888; padding: 20px; border-radius: 10px; border: 1px solid #ff4444; margin: 50px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    // CRITICAL: Error handling for the user
+    window.onerror = function(msg, url, line) {
+        document.getElementById('root').innerHTML = `<div class="error-box"><b>APPLICATION ERROR:</b><br>${msg}<br><br>Location: Line ${line}</div>`;
+    };
+
+    const { useState, useEffect, useMemo, useCallback } = React;
+    const e = React.createElement;
+
+    // --- CONFIG ---
+    const GOOGLE_CLIENT_ID = "916785261941-vc25phs8dn3vlmcn7lqggnuppsg3ug0p.apps.googleusercontent.com";
+    const DEFAULT_COA = [
+        {name:"Sales Income", type:"Income"}, {name:"Other Income", type:"Income"},
+        {name:"Cost of Goods Sold", type:"Expense"}, {name:"Staff Salary", type:"Expense"},
+        {name:"Office Rent", type:"Expense"}, {name:"Bank Charges", type:"Expense"},
+        {name:"Main Bank", type:"Asset", sub:"Cash & Bank"}, {name:"Petty Cash", type:"Asset", sub:"Cash & Bank"},
+        {name:"Accounts Receivable", type:"Asset"}, {name:"Accounts Payable", type:"Liability"},
+        {name:"Suspense", type:"Asset"}
+    ];
+
+    function App() {
+        const [activeCompany, setActiveCompany] = useState(null);
+        const [companies, setCompanies] = useState([]);
+        const [page, setPage] = useState("dashboard");
+        const [isGoogleLoaded, setIsGoogleLoaded] = useState(false);
+
+        // Company Data
+        const [txns, setTxns] = useState([]);
+        const [invoices, setInvoices] = useState([]);
+        const [coa, setCoa] = useState(DEFAULT_COA);
+
+        // Initialization
+        useEffect(() => {
+            const idx = localStorage.getItem("cs_pro_index");
+            if (idx) setCompanies(JSON.parse(idx));
+            
+            // Wait for Google GSI script
+            const checkG = setInterval(() => {
+                if (window.google) {
+                    setIsGoogleLoaded(true);
+                    clearInterval(checkG);
+                }
+            }, 500);
+        }, []);
+
+        // PERSISTENCE: Namespaced by Company Slug
+        const saveAll = useCallback(() => {
+            if (!activeCompany) return;
+            const payload = { txns, invoices, coa };
+            localStorage.setItem(`cs_pro_data_${activeCompany.slug}`, JSON.stringify(payload));
+            localStorage.setItem("cs_pro_index", JSON.stringify(companies));
+        }, [txns, invoices, coa, activeCompany, companies]);
+
+        useEffect(() => {
+            const timer = setTimeout(saveAll, 800);
+            return () => clearTimeout(timer);
+        }, [saveAll]);
+
+        const handleSwitchCompany = (co) => {
+            const raw = localStorage.getItem(`cs_pro_data_${co.slug}`);
+            if (raw) {
+                const d = JSON.parse(raw);
+                setTxns(d.txns || []);
+                setInvoices(d.invoices || []);
+                setCoa(d.coa || DEFAULT_COA);
+            } else {
+                setTxns([]); setInvoices([]); setCoa(DEFAULT_COA);
+            }
+            setActiveCompany(co);
+            setPage("dashboard");
+        };
+
+        const createNewCompany = (name) => {
+            if (!name.trim()) return;
+            const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            if (companies.find(c => c.slug === slug)) { alert("Company name already exists"); return; }
+            const newCo = { name, slug, id: Date.now() };
+            const newList = [...companies, newCo];
+            setCompanies(newList);
+            localStorage.setItem("cs_pro_index", JSON.stringify(newList));
+            handleSwitchCompany(newCo);
+        };
+
+        // CALCULATIONS
+        const stats = useMemo(() => {
+            const income = invoices.reduce((s, i) => s + (i.total || 0), 0);
+            const expense = txns.filter(t => t.amount < 0).reduce((s, t) => s + Math.abs(t.amount), 0);
+            const receivables = invoices.reduce((s, i) => s + ((i.total || 0) - (i.paid || 0)), 0);
+            const bank = txns.reduce((s, t) => s + t.amount, 0);
+            return { income, expense, net: income - expense, receivables, bank };
+        }, [txns, invoices]);
+
+        // --- SUB-PAGES ---
+
+        const Dashboard = () => e("div", null,
+            e("div", { className: "kpi-grid" },
+                e("div", { className: "kpi-card" }, e("label", null, "Net Profit"), e("div", { className: "kpi-value", style: {color: stats.net >= 0 ? 'var(--green)' : 'var(--red)'} }, "AED " + stats.net.toLocaleString())),
+                e("div", { className: "kpi-card" }, e("label", null, "Accounts Receivable"), e("div", { className: "kpi-value" }, "AED " + stats.receivables.toLocaleString())),
+                e("div", { className: "kpi-card" }, e("label", null, "Bank Balance"), e("div", { className: "kpi-value", style: {color: 'var(--blue)'} }, "AED " + stats.bank.toLocaleString()))
+            ),
+            e("div", { className: "card" },
+                e("h3", { style: {marginBottom: '15px'} }, "Quick Transaction"),
+                e("div", { style: { display: 'flex', gap: '10px' } },
+                    e("input", { type: 'date', id: 'q_date', defaultValue: new Date().toISOString().split('T')[0], style: { width: '150px' } }),
+                    e("input", { type: 'text', id: 'q_desc', placeholder: 'Description...' }),
+                    e("input", { type: 'number', id: 'q_amt', placeholder: 'Amount' }),
+                    e("button", { className: 'btn-primary', onClick: () => {
+                        const d = document.getElementById('q_date').value;
+                        const ds = document.getElementById('q_desc').value;
+                        const am = parseFloat(document.getElementById('q_amt').value);
+                        if (!ds || isNaN(am)) return;
+                        setTxns([{ id: Date.now(), date: d, description: ds, amount: am, contraAccount: 'Suspense' }, ...txns]);
+                        document.getElementById('q_desc').value = ''; document.getElementById('q_amt').value = '';
+                    } }, "Post")
+                )
+            ),
+            e("div", { className: "card" },
+                e("h3", null, "Recent Activity"),
+                e("table", { style: { marginTop: '15px' } },
+                    e("thead", null, e("tr", null, e("th", null, "Date"), e("th", null, "Description"), e("th", { style: { textAlign: 'right' } }, "Amount"))),
+                    e("tbody", null, txns.slice(0, 8).map(t => e("tr", { key: t.id },
+                        e("td", null, t.date), e("td", null, t.description), e("td", { style: { textAlign: 'right', color: t.amount < 0 ? 'var(--red)' : 'var(--green)', fontWeight: 'bold' } }, t.amount.toLocaleString())
+                    )))
+                )
+            )
+        );
+
+        const Sales = () => e("div", null,
+            e("div", { style: { display: 'flex', justifyContent: 'space-between', marginBottom: '20px' } },
+                e("h2", null, "Invoices"),
+                e("button", { className: 'btn-primary', onClick: () => {
+                    const inv = { id: Date.now(), invNo: 'INV-' + (invoices.length + 1), client: "New Customer", total: 0, paid: 0, date: new Date().toISOString().split('T')[0] };
+                    setInvoices([inv, ...invoices]);
+                } }, "+ New Invoice")
+            ),
+            e("div", { className: "card" },
+                e("table", null,
+                    e("thead", null, e("tr", null, e("th", null, "Inv #"), e("th", null, "Customer"), e("th", null, "Total"), e("th", null, "Balance"))),
+                    e("tbody", null, invoices.map(i => e("tr", { key: i.id },
+                        e("td", { style: { fontWeight: 700, color: 'var(--accent)' } }, i.invNo), e("td", null, i.client), e("td", null, i.total.toLocaleString()), e("td", null, (i.total - i.paid).toLocaleString())
+                    )), invoices.length === 0 && e("tr", null, e("td", { colSpan: 4, style: { textAlign: 'center', padding: '30px' } }, "No invoices found.")))
+                )
+            )
+        );
+
+        const Banking = () => e("div", { className: "card", style: { textAlign: 'center', padding: '50px' } },
+            e("h2", null, "Banking & Imports"),
+            e("p", { style: { color: 'var(--text-muted)', margin: '10px 0 20px' } }, "Upload your bank CSV statements here to auto-reconcile."),
+            e("div", { style: { display: 'flex', gap: '10px', justifyContent: 'center' } },
+                e("button", { className: 'btn-primary' }, "Upload Statement"),
+                e("button", { className: 'btn-outline' }, "Add Manual Entry")
+            )
+        );
+
+        const Accounting = () => e("div", { className: "card" },
+            e("h2", { style: { marginBottom: '20px' } }, "Chart of Accounts"),
+            e("table", null,
+                e("thead", null, e("tr", null, e("th", null, "Account Name"), e("th", null, "Type"), e("th", { style: { textAlign: 'right' } }, "Balance"))),
+                e("tbody", null, coa.map(a => e("tr", { key: a.name },
+                    e("td", { style: { fontWeight: 600 } }, a.name), e("td", null, a.type), e("td", { style: { textAlign: 'right' } }, "AED 0.00")
+                )))
+            )
+        );
+
+        // --- AUTH/SELECTOR SCREEN ---
+        if (!activeCompany) {
+            return e("div", { style: { width: '100vw', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' } },
+                e("div", { className: 'card', style: { width: '400px', padding: '40px' } },
+                    e("h1", { style: { textAlign: 'center', marginBottom: '10px' } }, "CherrySoft Pro"),
+                    e("p", { style: { textAlign: 'center', color: 'var(--text-muted)', marginBottom: '30px' } }, "Multi-Company Clean Engine"),
+                    companies.length > 0 && e("div", { style: { marginBottom: '30px' } },
+                        e("label", null, "Your Companies"),
+                        companies.map(c => e("button", { key: c.slug, style: { display: 'block', width: '100%', textAlign: 'left', background: 'var(--surface-alt)', border: '1px solid var(--border)', padding: '12px', marginTop: '8px', color: 'white' }, onClick: () => handleSwitchCompany(c) }, "🏢 " + c.name))
+                    ),
+                    e("div", { style: { borderTop: '1px solid var(--border)', paddingTop: '20px' } },
+                        e("label", null, "Setup New Company"),
+                        e("input", { id: 'new_name', placeholder: 'Company Name (e.g. ABC Trading)' }),
+                        e("button", { className: 'btn-primary', style: { width: '100%', marginTop: '15px' }, onClick: () => createNewCompany(document.getElementById('new_name').value) }, "Start New Books")
+                    )
+                )
+            );
+        }
+
+        // --- MAIN APP SHELL ---
+        return e(React.Fragment, null,
+            e("div", { className: "sidebar" },
+                e("div", { className: "nav-header" }, e("div", { style: { fontWeight: 900, color: 'var(--accent)', fontSize: '16px' } }, "CHERRYSOFT"), e("div", { style: { fontSize: '10px', color: 'var(--green)', marginTop: '4px' } }, "● " + activeCompany.name)),
+                e("div", { className: "nav-section" }, "Main"),
+                e("div", { className: `nav-item ${page === 'dashboard' ? 'active' : ''}`, onClick: () => setPage('dashboard') }, "🏠 Dashboard"),
+                e("div", { className: `nav-item ${page === 'banking' ? 'active' : ''}`, onClick: () => setPage('banking') }, "🏦 Banking"),
+                e("div", { className: "nav-section" }, "Sales"),
+                e("div", { className: `nav-item ${page === 'sales' ? 'active' : ''}`, onClick: () => setPage('sales') }, "🧾 Invoices"),
+                e("div", { className: "nav-section" }, "Books"),
+                e("div", { className: `nav-item ${page === 'accounting' ? 'active' : ''}`, onClick: () => setPage('accounting') }, "📑 Chart of Accounts"),
+                e("div", { style: { marginTop: 'auto', padding: '20px' } },
+                    e("button", { className: 'btn-outline', style: { width: '100%', color: 'var(--red)', fontSize: '11px' }, onClick: () => setActiveCompany(null) }, "🚪 Switch Company")
+                )
+            ),
+            e("div", { className: "main-content" },
+                e("div", { style: { display: 'flex', justifyContent: 'space-between', marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '10px' } },
+                    e("h2", { style: { textTransform: 'uppercase' } }, page),
+                    e("div", { style: { textAlign: 'right' } }, e("div", { style: { fontSize: '10px', color: 'var(--text-muted)' } }, "Isolated Safe Storage"), e("div", { style: { fontWeight: 700 } }, activeCompany.name))
+                ),
+                page === "dashboard" && e(Dashboard),
+                page === "sales" && e(Sales),
+                page === "banking" && e(Banking),
+                page === "accounting" && e(Accounting)
+            )
+        );
+    }
+
+    // Root rendering
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+    root.render(e(App));
+  </script>
+</body>
+</html>
