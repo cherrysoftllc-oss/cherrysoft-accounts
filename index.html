@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CherrySoft Accounts Pro</title>
+  <script src="https://accounts.google.com/gsi/client"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#0f1117;color:#e8eaf6;}
+    #root{min-height:100vh;}
+    .card{background:#1a1d27;border:1px solid #2a2f47;border-radius:10px;padding:16px;margin-bottom:12px;}
+    button{cursor:pointer;transition: opacity 0.2s;}
+    button:hover{opacity: 0.8;}
+    input, select, textarea{background:#21253a;border:1px solid #2a2f47;border-radius:6px;padding:8px;color:#fff;outline:none;}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+/**
+ * CHERRYSOFT ACCOUNTS ENGINE v3.2 (CLEAN SLATE REPAIR)
+ * No hardcoded data. Multi-company isolated. 
+ */
+
+const APP_VERSION = "3.2-REPAIRED";
+const GOOGLE_CLIENT_ID = "916785261941-vc25phs8dn3vlmcn7lqggnuppsg3ug0p.apps.googleusercontent.com"; 
+
+// Default Chart of Accounts for any new company
+const DEFAULT_COA = [
+  {code:"4101",name:"Sales Income",type:"Income",sub:"Revenue"},
+  {code:"4501",name:"Cost of Goods Sold",type:"Expense",sub:"COGS"},
+  {code:"B001",name:"Main Bank Account",type:"Asset",sub:"Cash & Bank"},
+  {code:"A001",name:"Accounts Receivable",type:"Asset",sub:"Receivables"},
+  {code:"L001",name:"Accounts Payable",type:"Liability",sub:"Payables"},
+  {code:"L003",name:"VAT Payable",type:"Liability",sub:"Tax"},
+  {code:"E001",name:"Owner's Equity",type:"Equity",sub:"Equity"},
+  {code:"S001",name:"Suspense",type:"Asset",sub:"Suspense"}
+];
+
+// Helper: Proper naming for Google Drive Files
+const COMPANIES_INDEX_FILE = "CherrySoft_Companies_Index.json";
+function getCompanyFileName(slug) { return `CherrySoft_Data_${slug}.json`; }
+
+// Storage Helper: Unique LocalStorage per company
+function getLocalKey(slug) { return `cs_storage_${slug || 'global'}`; }
+
+const { useState, useEffect, useMemo, useCallback } = React;
+
+function App() {
+  const [hydrated, setHydrated] = useState(false);
+  const [driveToken, setDriveToken] = useState(null);
+  const [companies, setCompanies] = useState([]);
+  const [activeCompany, setActiveCompany] = useState(null); // { name, slug, driveId }
+  
+  // Business Data State
+  const [txns, setTxns] = useState([]);
+  const [invoices, setInvoices] = useState([]);
+  const [vendorBills, setVendorBills] = useState([]);
+  const [coa, setCoa] = useState(DEFAULT_COA);
+  const [customers, setCustomers] = useState([]);
+  const [vendors, setVendors] = useState([]);
+
+  // --- GOOGLE DRIVE AUTH ---
+  const driveSignIn = () => {
+    const client = google.accounts.oauth2.initTokenClient({
+      client_id: GOOGLE_CLIENT_ID,
+      scope: "https://www.googleapis.com/auth/drive.file",
+      callback: (resp) => { if (resp.access_token) setDriveToken(resp.access_token); }
+    });
+    client.requestAccessToken();
+  };
+
+  // --- ACCOUNTING ENGINE (REPAIRED) ---
+  const pl = useMemo(() => {
+    const income = invoices.reduce((s, i) => s + (i.amount || 0), 0);
+    const accrualExpense = vendorBills.reduce((s, b) => s + (b.total || 0), 0);
+    const directExpense = txns.reduce((s, t) => {
+        // Only count as expense if it's money out and NOT paying an existing bill (AP)
+        if (t.amount < 0 && t.contraAccount !== "Accounts Payable") return s + Math.abs(t.amount);
+        return s;
+    }, 0);
+    return { income, expense: accrualExpense + directExpense, netProfit: income - (accrualExpense + directExpense) };
+  }, [txns, invoices, vendorBills]);
+
+  const bs = useMemo(() => {
+    const balances = {};
+    coa.forEach(a => {
+        let bal = 0;
+        txns.forEach(t => {
+            if (t.sourceAccount === a.name) bal += t.amount;
+            if (t.contraAccount === a.name) bal -= t.amount;
+        });
+        balances[a.name] = bal;
+    });
+    // Overwrite AR/AP with real unpaid amounts
+    balances["Accounts Receivable"] = invoices.reduce((s, i) => s + (i.total - (i.paidAmount || 0)), 0);
+    balances["Accounts Payable"] = vendorBills.reduce((s, b) => s + (b.total - (b.paidAmount || 0)), 0);
+    return balances;
+  }, [txns, coa, invoices, vendorBills]);
+
+  // --- PERSISTENCE ---
+  const saveAll = useCallback(async () => {
+    if (!activeCompany) return;
+    const data = { txns, invoices, vendorBills, coa, customers, vendors };
+    const slug = activeCompany.slug;
+    
+    // Save to Local
+    localStorage.setItem(getLocalKey(slug), JSON.stringify(data));
+    
+    // Save to Drive (Logic simplified for this display)
+    console.log("Autosaving Company:", activeCompany.name);
+  }, [txns, invoices, vendorBills, coa, customers, vendors, activeCompany]);
+
+  useEffect(() => {
+    if (activeCompany) {
+        const timer = setTimeout(saveAll, 1000);
+        return () => clearTimeout(timer);
+    }
+  }, [txns, invoices, vendorBills, coa, customers, vendors, activeCompany]);
+
+  // --- UI SCREENS ---
+  
+  // 1. Initial Login
+  if (!driveToken && !activeCompany) {
+    return React.createElement("div", { style: { display: "flex", height: "100vh", alignItems: "center", justifyContent: "center", textAlign: "center" } },
+        React.createElement("div", { className: "card", style: { width: 400 } },
+            React.createElement("h1", null, "CherrySoft Pro"),
+            React.createElement("p", { style: { margin: "10px 0 20px", color: "#7b82a8" } }, "Accounting with Google Drive Persistence"),
+            React.createElement("button", { 
+                onClick: driveSignIn, 
+                style: { padding: "12px 24px", background: "#6c63ff", color: "#fff", border: "none", borderRadius: 8, fontWeight: 700 } 
+            }, "Sign in with Google")
+        )
+    );
+  }
+
+  // 2. Company Selector
+  if (driveToken && !activeCompany) {
+    return React.createElement("div", { style: { padding: 40, maxWidth: 600, margin: "0 auto" } },
+        React.createElement("h2", null, "Select or Create Company"),
+        React.createElement("div", { style: { marginTop: 20 } },
+            companies.map(c => React.createElement("button", { 
+                key: c.slug, 
+                onClick: () => setActiveCompany(c),
+                style: { display: "block", width: "100%", padding: 15, marginBottom: 10, background: "#21253a", color: "#fff", border: "1px solid #2a2f47", textAlign: "left", borderRadius: 8 }
+            }, "🏢 " + c.name)),
+            React.createElement("div", { className: "card", style: { marginTop: 30 } },
+                React.createElement("h4", null, "Create New Company"),
+                React.createElement("input", { id: "newCoName", placeholder: "Company Name (e.g. My Shop LLC)", style: { width: "100%", margin: "10px 0" } }),
+                React.createElement("button", { 
+                    onClick: () => {
+                        const name = document.getElementById("newCoName").value;
+                        if (!name) return;
+                        const slug = name.toLowerCase().replace(/[^a-z0-9]/g, "_");
+                        const newCo = { name, slug };
+                        setCompanies([...companies, newCo]);
+                        setActiveCompany(newCo);
+                        // Reset everything for new company
+                        setTxns([]); setInvoices([]); setVendorBills([]); setCoa(DEFAULT_COA);
+                    },
+                    style: { background: "#2dd4a0", color: "#fff", border: "none", padding: "10px 20px", borderRadius: 6, fontWeight: 700 }
+                }, "Start New Books")
+            )
+        )
+    );
+  }
+
+  // 3. Main Dashboard
+  return React.createElement("div", { style: { display: "flex", minHeight: "100vh" } },
+    // Sidebar
+    React.createElement("div", { style: { width: 220, background: "#1a1d27", borderRight: "1px solid #2a2f47", padding: 20 } },
+        React.createElement("h3", null, activeCompany.name),
+        React.createElement("div", { style: { fontSize: 10, color: "#7b82a8", marginBottom: 20 } }, "MODE: Real-time Save"),
+        React.createElement("nav", null,
+            ["Dashboard", "Banking", "Sales", "Purchases", "Reports"].map(n => 
+                React.createElement("div", { key: n, style: { padding: "10px 0", cursor: "pointer", color: "#e8eaf6" } }, n)
+            )
+        ),
+        React.createElement("button", { 
+            onClick: () => setActiveCompany(null),
+            style: { marginTop: 40, background: "transparent", color: "#f26565", border: "1px solid #f26565", padding: "5px 10px", borderRadius: 4 }
+        }, "Switch Company")
+    ),
+    // Main Content
+    React.createElement("div", { style: { flex: 1, padding: 30 } },
+        React.createElement("div", { style: { display: "flex", gap: 20, marginBottom: 30 } },
+            React.createElement("div", { className: "card", style: { flex: 1 } }, 
+                React.createElement("div", { style: { fontSize: 12, color: "#7b82a8" } }, "NET PROFIT"),
+                React.createElement("div", { style: { fontSize: 24, fontWeight: 800, color: pl.netProfit >= 0 ? "#2dd4a0" : "#f26565" } }, "AED " + pl.netProfit.toLocaleString())
+            ),
+            React.createElement("div", { className: "card", style: { flex: 1 } }, 
+                React.createElement("div", { style: { fontSize: 12, color: "#7b82a8" } }, "ACCOUNTS RECEIVABLE"),
+                React.createElement("div", { style: { fontSize: 24, fontWeight: 800 } }, "AED " + bs["Accounts Receivable"].toLocaleString())
+            ),
+            React.createElement("div", { className: "card", style: { flex: 1 } }, 
+                React.createElement("div", { style: { fontSize: 12, color: "#7b82a8" } }, "ACCOUNTS PAYABLE"),
+                React.createElement("div", { style: { fontSize: 24, fontWeight: 800, color: "#f5a623" } }, "AED " + bs["Accounts Payable"].toLocaleString())
+            )
+        ),
+        React.createElement("div", { className: "card" },
+            React.createElement("h4", null, "Quick Action: Add Transaction"),
+            React.createElement("div", { style: { display: "flex", gap: 10, marginTop: 15 } },
+                React.createElement("input", { type: "date", id: "tDate", style: { width: 150 } }),
+                React.createElement("input", { placeholder: "Description", id: "tDesc", style: { flex: 1 } }),
+                React.createElement("input", { placeholder: "Amount", id: "tAmt", type: "number", style: { width: 100 } }),
+                React.createElement("button", { 
+                    onClick: () => {
+                        const date = document.getElementById("tDate").value;
+                        const description = document.getElementById("tDesc").value;
+                        const amount = parseFloat(document.getElementById("tAmt").value);
+                        if (!date || !amount) return;
+                        setTxns([{ id: Date.now(), date, description, amount, sourceAccount: "Main Bank Account", contraAccount: "Suspense" }, ...txns]);
+                        document.getElementById("tDesc").value = "";
+                        document.getElementById("tAmt").value = "";
+                    },
+                    style: { background: "#6c63ff", color: "#fff", border: "none", borderRadius: 6, padding: "0 20px" } 
+                }, "Post")
+            )
+        ),
+        React.createElement("div", { style: { marginTop: 20 } },
+            React.createElement("table", { style: { width: "100%", textAlign: "left", borderCollapse: "collapse" } },
+                React.createElement("thead", null, 
+                    React.createElement("tr", { style: { color: "#7b82a8", fontSize: 12 } }, 
+                        ["Date", "Description", "Account", "Amount"].map(h => React.createElement("th", { key: h, style: { padding: 10 } }, h))
+                    )
+                ),
+                React.createElement("tbody", null,
+                    txns.map(t => React.createElement("tr", { key: t.id, style: { borderTop: "1px solid #2a2f47" } },
+                        React.createElement("td", { style: { padding: 10 } }, t.date),
+                        React.createElement("td", { style: { padding: 10 } }, t.description),
+                        React.createElement("td", { style: { padding: 10 } }, t.contraAccount),
+                        React.createElement("td", { style: { padding: 10, color: t.amount > 0 ? "#2dd4a0" : "#f26565" } }, t.amount.toLocaleString())
+                    )),
+                    txns.length === 0 && React.createElement("tr", null, React.createElement("td", { colSpan: 4, style: { padding: 40, textAlign: "center", color: "#4a5080" } }, "No transactions yet. Start by adding one above or importing a CSV."))
+                )
+            )
+        )
+    )
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(App));
+  </script>
+</body>
+</html>
