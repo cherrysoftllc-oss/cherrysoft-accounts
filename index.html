@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CherrySoft Accounts Pro</title>
+  <script src="https://accounts.google.com/gsi/client"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f1117; --surface: #1a1d27; --surface-alt: #21253a;
+      --border: #2a2f47; --accent: #6c63ff; --accent-soft: rgba(108, 99, 255, 0.1);
+      --text: #e8eaf6; --text-muted: #7b82a8; --text-dim: #4a5080;
+      --green: #2dd4a0; --red: #f26565; --amber: #f5a623; --blue: #38bdf8;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5;}
+    #root{min-height:100vh;display:flex;width:100%;}
+    .sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;padding:20px 0;flex-shrink:0;overflow-y:auto;}
+    .main{flex:1;padding:25px;overflow-x:hidden;min-width:0;}
+    .nav-sec{padding:10px 20px 5px;font-size:10px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;}
+    .nav-item{padding:8px 20px;cursor:pointer;color:var(--text-muted);border-left:3px solid transparent;transition:0.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .nav-item:hover{background:var(--surface-alt);color:var(--text);}
+    .nav-item.active{background:var(--accent-soft);color:var(--text);border-left-color:var(--accent);font-weight:600;}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:15px;}
+    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:12px;margin-bottom:20px;}
+    .kpi-card{background:var(--surface-alt);padding:15px;border-radius:8px;border:1px solid var(--border);}
+    .kpi-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;margin-bottom:5px;}
+    .kpi-value{font-size:18px;font-weight:700;}
+    table{width:100%;border-collapse:collapse;}
+    th{text-align:left;padding:10px;font-size:11px;color:var(--text-muted);border-bottom:1px solid var(--border);text-transform:uppercase;cursor:pointer;}
+    td{padding:10px;border-bottom:1px solid var(--border);font-size:12px;}
+    button{padding:8px 16px;border-radius:6px;border:none;font-weight:600;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;gap:6px;}
+    .btn-primary{background:var(--accent);color:white;}
+    .btn-danger{background:var(--red);color:white;}
+    .btn-ghost{background:var(--surface-alt);color:var(--text);}
+    input, select, textarea { background: var(--surface-alt); border: 1px solid var(--border); color: white; padding: 8px; border-radius: 6px; outline: none; width: 100%; }
+    .badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;text-transform:uppercase;display:inline-block;}
+    .badge-paid{background:rgba(45,212,160,0.1);color:var(--green);}
+    .badge-unpaid{background:rgba(242,101,101,0.1);color:var(--red);}
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 25px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+const { useState, useEffect, useMemo, useCallback, useRef, Fragment } = React;
+
+// --- CONFIG ---
+const APP_VERSION = "4.0-CLEAN";
+const GOOGLE_CLIENT_ID = "916785261941-vc25phs8dn3vlmcn7lqggnuppsg3ug0p.apps.googleusercontent.com";
+
+const DEFAULT_COA = [
+  {code:"4101",name:"Sales Income",type:"Income",sub:"Revenue"},
+  {code:"4501",name:"Cost of Goods Sold",type:"Expense",sub:"COGS"},
+  {code:"5101",name:"Staff Salaries",type:"Expense",sub:"Staff"},
+  {code:"B001",name:"Bank_Main",type:"Asset",sub:"Cash & Bank"},
+  {code:"B002",name:"Petty Cash",type:"Asset",sub:"Cash & Bank"},
+  {code:"A001",name:"Accounts Receivable",type:"Asset",sub:"Receivables"},
+  {code:"L001",name:"Accounts Payable",type:"Liability",sub:"Payables"},
+  {code:"L003",name:"VAT Payable",type:"Liability",sub:"Tax"},
+  {code:"E001",name:"Owner Equity",type:"Equity",sub:"Equity"},
+  {code:"S001",name:"Suspense",type:"Asset",sub:"Suspense"}
+];
+
+// --- CORE UTILS ---
+const fmtAED = (n) => (n || 0).toLocaleString('en-AE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmtDate = (d) => d ? new Date(d).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric'}) : '—';
+const getSlug = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, '_').slice(0, 30);
+
+function App() {
+  // Navigation & Company State
+  const [activeCompany, setActiveCompany] = useState(null);
+  const [companies, setCompanies] = useState([]);
+  const [driveToken, setDriveToken] = useState(null);
+  const [page, setPage] = useState("dashboard");
+  const [toast, setToast] = useState(null);
+
+  // Accounting State (The "Books")
+  const [txns, setTxns] = useState([]);
+  const [invoices, setInvoices] = useState([]);
+  const [vendorBills, setVendorBills] = useState([]);
+  const [coa, setCoa] = useState(DEFAULT_COA);
+  const [customers, setCustomers] = useState([]);
+  const [vendors, setVendors] = useState([]);
+  const [rules, setRules] = useState([]);
+
+  // Modals
+  const [showAddTxn, setShowAddTxn] = useState(false);
+  const [showAddInvoice, setShowAddInvoice] = useState(false);
+
+  // --- PERSISTENCE ---
+  const saveAll = useCallback(() => {
+    if (!activeCompany) return;
+    const data = { txns, invoices, vendorBills, coa, customers, vendors, rules };
+    localStorage.setItem(`cs_data_${activeCompany.slug}`, JSON.stringify(data));
+    localStorage.setItem("cs_company_index", JSON.stringify(companies));
+    console.log("Books saved for:", activeCompany.name);
+  }, [txns, invoices, vendorBills, coa, customers, vendors, rules, activeCompany, companies]);
+
+  useEffect(() => {
+    const idx = localStorage.getItem("cs_company_index");
+    if (idx) setCompanies(JSON.parse(idx));
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(saveAll, 1000);
+    return () => clearTimeout(timer);
+  }, [saveAll]);
+
+  const loadCompany = (co) => {
+    const raw = localStorage.getItem(`cs_data_${co.slug}`);
+    if (raw) {
+      const d = JSON.parse(raw);
+      setTxns(d.txns || []);
+      setInvoices(d.invoices || []);
+      setVendorBills(d.vendorBills || []);
+      setCoa(d.coa || DEFAULT_COA);
+      setCustomers(d.customers || []);
+      setVendors(d.vendors || []);
+      setRules(d.rules || []);
+    } else {
+      setTxns([]); setInvoices([]); setVendorBills([]); 
+      setCoa(DEFAULT_COA); setCustomers([]); setVendors([]); setRules([]);
+    }
+    setActiveCompany(co);
+    setPage("dashboard");
+  };
+
+  // --- MATH ENGINE ---
+  const balances = useMemo(() => {
+    const b = {};
+    coa.forEach(a => {
+      let val = 0;
+      txns.forEach(t => {
+        if (t.sourceAccount === a.name) val += t.amount;
+        if (t.contraAccount === a.name) val -= t.amount;
+      });
+      b[a.name] = val;
+    });
+    b["AR"] = invoices.reduce((s, i) => s + (i.total - (i.paidAmount || 0)), 0);
+    b["AP"] = vendorBills.reduce((s, v) => s + (v.total - (v.paidAmount || 0)), 0);
+    return b;
+  }, [txns, invoices, vendorBills, coa]);
+
+  const stats = useMemo(() => {
+    const income = invoices.reduce((s, i) => s + i.total, 0);
+    const expense = txns.filter(t => t.amount < 0).reduce((s, t) => s + Math.abs(t.amount), 0);
+    return { income, expense, net: income - expense };
+  }, [invoices, txns]);
+
+  // --- UI RENDERERS ---
+  const Sidebar = () => (
+    <div className="sidebar">
+      <div style={{padding:'0 20px 20px', borderBottom:'1px solid var(--border)', marginBottom:'10px'}}>
+        <div style={{fontWeight:800, fontSize:'14px', color:'var(--accent)'}}>CHERRYSOFT PRO</div>
+        <div style={{fontSize:'10px', color:'var(--green)', marginTop:4}}>🏢 {activeCompany?.name}</div>
+      </div>
+      
+      <div className="nav-sec">Banking</div>
+      <div className={`nav-item ${page==='dashboard'?'active':''}`} onClick={()=>setPage('dashboard')}>📊 Dashboard</div>
+      <div className={`nav-item ${page==='banking'?'active':''}`} onClick={()=>setPage('banking')}>🏦 Accounts & Ledgers</div>
+      
+      <div className="nav-sec">Sales</div>
+      <div className={`nav-item ${page==='invoices'?'active':''}`} onClick={()=>setPage('invoices')}>🧾 Invoices</div>
+      <div className={`nav-item ${page==='clients'?'active':''}`} onClick={()=>setPage('clients')}>👥 Client Ledger</div>
+      
+      <div className="nav-sec">Expenses</div>
+      <div className={`nav-item ${page==='purchases'?'active':''}`} onClick={()=>setPage('purchases')}>🛒 Purchase List</div>
+      <div className={`nav-item ${page==='petty'?'active':''}`} onClick={()=>setPage('petty')}>💵 Petty Cash</div>
+      
+      <div className="nav-sec">Accounting</div>
+      <div className={`nav-item ${page==='coa'?'active':''}`} onClick={()=>setPage('coa')}>📑 Chart of Accounts</div>
+      <div className={`nav-item ${page==='jv'?'active':''}`} onClick={()=>setPage('jv')}>📝 Journal Entries</div>
+      <div className={`nav-item ${page==='reports'?'active':''}`} onClick={()=>setPage('reports')}>📈 Financial Reports</div>
+      
+      <div style={{padding:'20px', marginTop:'auto'}}>
+        <button className="btn-ghost" style={{width:'100%', color: 'var(--red)'}} onClick={()=>setActiveCompany(null)}>🚪 Switch Company</button>
+      </div>
+    </div>
+  );
+
+  const Dashboard = () => (
+    <div>
+      <div className="kpi-grid">
+        <div className="kpi-card">
+          <div className="kpi-label">Cash & Bank</div>
+          <div className="kpi-value" style={{color:'var(--blue)'}}>AED {fmtAED(Object.entries(balances).filter(([k])=>coa.find(a=>a.name===k && a.sub==='Cash & Bank')).reduce((s,[,v])=>s+v, 0))}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="kpi-label">Receivables</div>
+          <div className="kpi-value">AED {fmtAED(balances.AR)}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="kpi-label">Payables</div>
+          <div className="kpi-value" style={{color:'var(--amber)'}}>AED {fmtAED(balances.AP)}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="kpi-label">Net Profit</div>
+          <div className="kpi-value" style={{color: stats.net >=0 ? 'var(--green)' : 'var(--red)'}}>AED {fmtAED(stats.net)}</div>
+        </div>
+      </div>
+
+      <div className="card">
+        <h3>Quick Action: New Transaction</h3>
+        <div style={{display:'flex', gap:10, marginTop:15}}>
+           <input type="date" id="qd" defaultValue={new Date().toISOString().split('T')[0]} style={{width:150}} />
+           <input type="text" id="qt" placeholder="Description..." style={{flex:1}} />
+           <input type="number" id="qa" placeholder="Amount (e.g. -500 for expense)" style={{width:120}} />
+           <button className="btn-primary" onClick={()=>{
+             const d = document.getElementById('qd').value;
+             const t = document.getElementById('qt').value;
+             const a = parseFloat(document.getElementById('qa').value);
+             if(!t || !a) return;
+             setTxns([{id: Date.now(), date: d, description: t, amount: a, sourceAccount: 'Bank_Main', contraAccount:'Suspense'}, ...txns]);
+             document.getElementById('qt').value=''; document.getElementById('qa').value='';
+           }}>Post Entry</button>
+        </div>
+      </div>
+
+      <div className="card">
+        <h3>Recent Transactions</h3>
+        <table className="table">
+          <thead><tr><th>Date</th><th>Description</th><th>Account</th><th style={{textAlign:'right'}}>Amount</th></tr></thead>
+          <tbody>
+            {txns.slice(0, 10).map(t=>(
+              <tr key={t.id}>
+                <td>{fmtDate(t.date)}</td>
+                <td>{t.description}</td>
+                <td>{t.contraAccount}</td>
+                <td style={{textAlign:'right', fontWeight:700, color: t.amount < 0 ? 'var(--red)' : 'var(--green)'}}>{fmtAED(t.amount)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+  const GenericPage = (title, desc) => (
+    <div className="card" style={{padding: 40, textAlign:'center'}}>
+      <h2>{title}</h2>
+      <p style={{color:'var(--text-muted)', margin:'10px 0'}}>{desc}</p>
+      <div style={{marginTop:20, display:'flex', justifyContent:'center', gap:10}}>
+        <button className="btn-primary">Add New Record</button>
+        <button className="btn-ghost">Import CSV</button>
+      </div>
+    </div>
+  );
+
+  // --- LOGIN / SELECTOR ---
+  if (!activeCompany) {
+    return (
+      <div style={{width:'100vw', height:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'var(--bg)'}}>
+        <div style={{width:400}}>
+          <div className="card" style={{textAlign:'center', padding:30}}>
+            <h1 style={{marginBottom:10}}>CherrySoft Pro</h1>
+            <p style={{color:'var(--text-muted)', marginBottom:20}}>Multi-Company Accounting Clean Slate</p>
+            {companies.length > 0 && <div style={{marginBottom:20, textAlign:'left'}}>
+              <div className="kpi-label">Existing Companies</div>
+              {companies.map(c=>(
+                <button key={c.slug} className="nav-item" style={{width:'100%', marginBottom:5, background:'var(--surface-alt)', border:'1px solid var(--border)'}} onClick={()=>loadCompany(c)}>🏢 {c.name}</button>
+              ))}
+            </div>}
+            <div style={{borderTop:'1px solid var(--border)', paddingTop:20}}>
+              <input id="cn" placeholder="New Company Name" style={{marginBottom:10}} />
+              <button className="btn-primary" style={{width:'100%', justifyContent:'center'}} onClick={()=>{
+                const n = document.getElementById('cn').value;
+                if(n) {
+                  const slug = getSlug(n);
+                  const newCo = {name: n, slug, id: Date.now()};
+                  setCompanies([...companies, newCo]);
+                  loadCompany(newCo);
+                }
+              }}>Create New Books</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <Fragment>
+      <Sidebar />
+      <div className="main">
+        <div style={{display:'flex', justifyContent:'space-between', marginBottom:20}}>
+           <h2 style={{textTransform:'uppercase', letterSpacing:1}}>{page.replace('_', ' ')}</h2>
+           <div style={{textAlign:'right'}}>
+             <div style={{fontSize:10, color:'var(--text-muted)'}}>Autosave Active</div>
+             <div style={{fontWeight:700}}>{activeCompany.name}</div>
+           </div>
+        </div>
+
+        {page === "dashboard" && <Dashboard />}
+        {page === "banking" && GenericPage("Bank Accounts & Ledgers", "Import statements for your bank accounts here.")}
+        {page === "invoices" && GenericPage("Invoice Manager", "Generate professional tax invoices for your clients.")}
+        {page === "clients" && GenericPage("Client Ledger", "Track balances and payments for every customer.")}
+        {page === "purchases" && GenericPage("Purchase List", "Record vendor bills and business expenses.")}
+        {page === "petty" && GenericPage("Petty Cash", "Monthly cash register and replenishment tracking.")}
+        {page === "coa" && (
+           <div className="card">
+             <h3>Chart of Accounts</h3>
+             <table className="table">
+               <thead><tr><th>Code</th><th>Name</th><th>Type</th><th style={{textAlign:'right'}}>Balance</th></tr></thead>
+               <tbody>
+                 {coa.map(a=>(
+                   <tr key={a.name}>
+                     <td style={{color:'var(--text-muted)'}}>{a.code || '—'}</td>
+                     <td style={{fontWeight:600}}>{a.name}</td>
+                     <td><span className="badge" style={{background:'var(--surface-alt)'}}>{a.type}</span></td>
+                     <td style={{textAlign:'right'}}>AED {fmtAED(balances[a.name] || 0)}</td>
+                   </tr>
+                 ))}
+               </tbody>
+             </table>
+           </div>
+        )}
+        {page === "jv" && GenericPage("Journal Entries", "Manual double-entry adjustment vouchers.")}
+        {page === "reports" && GenericPage("Financial Reports", "Profit & Loss and Balance Sheet statements.")}
+      </div>
+    </Fragment>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(App));
+  </script>
+</body>
+</html>
