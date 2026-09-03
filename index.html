@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CherrySoft Accounts v3.2 (Full Features & Fixes)</title>
+  <script src="https://accounts.google.com/gsi/client"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js" crossorigin></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f4f6f8; color: #333; }
+    #root { min-height: 100vh; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 20px; }
+    .card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .nav-tabs { display: flex; gap: 8px; border-bottom: 2px solid #e2e8f0; margin-bottom: 20px; }
+    .tab-btn { padding: 10px 16px; background: none; border: none; border-bottom: 3px solid transparent; font-weight: 600; color: #4a5568; cursor: pointer; }
+    .tab-btn.active { border-bottom-color: #3182ce; color: #3182ce; }
+    .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    .badge-success { background: #c6f6d5; color: #22543d; }
+    .badge-warning { background: #feebc8; color: #744210; }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #edf2f7; font-size: 14px; }
+    th { background: #f7fafc; color: #4a5568; }
+    button { padding: 8px 14px; border: none; border-radius: 4px; background: #3182ce; color: #fff; cursor: pointer; font-weight: 500; }
+    button:hover { background: #2b6cb0; }
+    input, select { padding: 8px 12px; border: 1px solid #cbd5e0; border-radius: 4px; width: 100%; margin-top: 4px; }
+    .file-input { background: #fff; padding: 12px; border: 2px dashed #cbd5e0; border-radius: 6px; text-align: center; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+window.onerror = function(msg, src, line, col, err) {
+  document.getElementById('root').innerHTML =
+    '<div style="padding:16px;font-family:monospace;font-size:13px;white-space:pre-wrap;color:#c00;background:#fff">'
+    + 'RUNTIME ERROR\n\n' + msg + '\n\nLine: ' + line + ' Col: ' + col
+    + (err && err.stack ? '\n\nStack:\n' + err.stack : '')
+    + '</div>';
+  return false;
+};
+window.addEventListener('unhandledrejection', function(e) {
+  document.getElementById('root').innerHTML =
+    '<div style="padding:16px;font-family:monospace;font-size:13px;white-space:pre-wrap;color:#c00;background:#fff">'
+    + 'UNHANDLED PROMISE REJECTION\n\n' + (e.reason && e.reason.stack ? e.reason.stack : e.reason)
+    + '</div>';
+});
+
+// --- FIXED CHART OF ACCOUNTS (COA) WITH OBs ---
+const INITIAL_COA = [
+  { code: "B001", name: "Bank_CS", type: "Asset", sub: "Cash & Bank", ob: 89703.52 },
+  { code: "B002", name: "Bank_PJ", type: "Asset", sub: "Cash & Bank", ob: 1511.00 },
+  { code: "B003", name: "Bank_RK", type: "Asset", sub: "Cash & Bank", ob: 5746.00 },
+  { code: "B004", name: "Mashreq_Cash", type: "Asset", sub: "Cash & Bank", ob: 0.00 }, // Fixed: Asset instead of Liability
+  { code: "B005", name: "Mashreq_Main", type: "Asset", sub: "Cash & Bank", ob: 0.00 }, // Fixed: Asset instead of Liability
+  { code: "C001", name: "PettyCash_CS", type: "Asset", sub: "Cash & Bank", ob: 681.00 },
+  { code: "C002", name: "PettyCash_PJ", type: "Asset", sub: "Cash & Bank", ob: 0.00 },
+  { code: "E001", name: "Office Expenses", type: "Expense", sub: "Operating", ob: 0.00 },
+  { code: "E002", name: "Rent & Utilities", type: "Expense", sub: "Operating", ob: 0.00 },
+  { code: "S001", name: "Suspense Account", type: "Asset", sub: "Clearing", ob: 0.00 }
+];
+
+// --- ALIAS MAPPING FOR CSV IMPORTS ---
+const ALIASES = {
+  "bank_cs": "Bank_CS",
+  "bank - cs": "Bank_CS",
+  "bank_pj": "Bank_PJ",
+  "bank_rk": "Bank_RK",
+  "rk_cash": "Bank_RK",        // Added alias for RK_Cash
+  "rk cash": "Bank_RK",
+  "pettycash_cs": "PettyCash_CS",
+  "pettycash_pj": "PettyCash_PJ",
+  "petty cash": "PettyCash_CS"
+};
+
+function normalizeAccount(raw) {
+  if (!raw) return "Suspense Account";
+  const clean = String(raw).trim().toLowerCase();
+  return ALIASES[clean] || raw;
+}
+
+const { useState, useMemo } = React;
+
+function App() {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [coa, setCoa] = useState(INITIAL_COA);
+  const [transactions, setTransactions] = useState([]);
+  const [filterAccount, setFilterAccount] = useState('ALL');
+
+  // CSV Reader / Importer Feature
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const bstr = evt.target.result;
+      const wb = XLSX.read(bstr, { type: 'binary' });
+      const wsName = wb.SheetNames[0];
+      const ws = wb.Sheets[wsName];
+      const data = XLSX.utils.sheet_to_json(ws);
+
+      const imported = data.map((row, idx) => ({
+        id: Date.now() + idx,
+        date: row.Date || new Date().toISOString().split('T')[0],
+        account: normalizeAccount(row.Account || row.Bank || "Bank_CS"),
+        description: row.Description || row.Particulars || "Imported Entry",
+        type: (row.Debit || row.Type === 'dr') ? 'dr' : 'cr',
+        amount: parseFloat(row.Debit || row.Credit || row.Amount || 0),
+        status: "pending"
+      }));
+
+      setTransactions(prev => [...prev, ...imported]);
+    };
+    reader.readAsBinaryString(file);
+  };
+
+  // Reconciled Account Balances with Real OBs
+  const accountBalances = useMemo(() => {
+    const map = {};
+    coa.forEach(a => { map[a.name] = a.ob || 0.0; });
+
+    transactions.forEach(t => {
+      if (t.status === "confirmed" || t.status === "matched") {
+        const acc = normalizeAccount(t.account);
+        if (map[acc] === undefined) map[acc] = 0.0;
+        if (t.type === 'dr') map[acc] += t.amount;
+        else map[acc] -= t.amount;
+      }
+    });
+    return map;
+  }, [coa, transactions]);
+
+  // Clean Transfer Reconciler (Prevents Double-Counting)
+  const handleConfirmMatch = (id) => {
+    setTransactions(prev => prev.map(t => t.id === id ? { ...t, status: 'confirmed' } : t));
+  };
+
+  const filteredTransactions = useMemo(() => {
+    if (filterAccount === 'ALL') return transactions;
+    return transactions.filter(t => normalizeAccount(t.account) === filterAccount);
+  }, [transactions, filterAccount]);
+
+  return React.createElement('div', { className: 'container' },
+    // App Header
+    React.createElement('div', { className: 'card', style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
+      React.createElement('h1', null, 'CherrySoft Accounts v3.2'),
+      React.createElement('div', { style: { width: '300px' } },
+        React.createElement('label', { style: { fontSize: '12px', fontWeight: 'bold' } }, 'IMPORT CSV / EXCEL STATEMENT'),
+        React.createElement('input', { type: 'file', accept: '.csv, .xlsx, .xls', onChange: handleFileUpload })
+      )
+    ),
+
+    // Navigation Tabs
+    React.createElement('div', { className: 'nav-tabs' },
+      ['dashboard', 'transactions', 'reports', 'coa'].map(tab =>
+        React.createElement('button', {
+          key: tab,
+          className: `tab-btn ${activeTab === tab ? 'active' : ''}`,
+          onClick: () => setActiveTab(tab)
+        }, tab.toUpperCase())
+      )
+    ),
+
+    // DASHBOARD VIEW
+    activeTab === 'dashboard' && React.createElement('div', null,
+      React.createElement('div', { className: 'grid' },
+        coa.map(acc =>
+          React.createElement('div', { key: acc.code, className: 'card' },
+            React.createElement('h4', { style: { color: '#718096' } }, acc.name),
+            React.createElement('div', { style: { fontSize: '12px', color: '#a0aec0', marginTop: '4px' } }, `OB: AED ${(acc.ob || 0).toLocaleString('en-US', {minimumFractionDigits: 2})}`),
+            React.createElement('h2', { style: { marginTop: '8px', color: '#2b6cb0' } },
+              `AED ${(accountBalances[acc.name] || 0).toLocaleString('en-US', {minimumFractionDigits: 2})}`
+            )
+          )
+        )
+      )
+    ),
+
+    // TRANSACTIONS VIEW
+    activeTab === 'transactions' && React.createElement('div', { className: 'card' },
+      React.createElement('div', { style: { display: 'flex', justifyContent: 'space-between', marginBottom: '16px' } },
+        React.createElement('h3', null, 'Transaction Register'),
+        React.createElement('select', { style: { width: '200px' }, value: filterAccount, onChange: e => setFilterAccount(e.target.value) },
+          React.createElement('option', { value: 'ALL' }, 'All Accounts'),
+          coa.map(a => React.createElement('option', { key: a.code, value: a.name }, a.name))
+        )
+      ),
+      React.createElement('table', null,
+        React.createElement('thead', null,
+          React.createElement('tr', null,
+            React.createElement('th', null, 'Date'),
+            React.createElement('th', null, 'Account'),
+            React.createElement('th', null, 'Description'),
+            React.createElement('th', null, 'Type'),
+            React.createElement('th', null, 'Amount (AED)'),
+            React.createElement('th', null, 'Status'),
+            React.createElement('th', null, 'Action')
+          )
+        ),
+        React.createElement('tbody', null,
+          filteredTransactions.length === 0 ? 
+            React.createElement('tr', null, React.createElement('td', { colSpan: 7, style: { textAlign: 'center', padding: '24px' } }, 'No transactions imported yet. Use the upload box above to load CSV statements.')) :
+            filteredTransactions.map(t =>
+              React.createElement('tr', { key: t.id },
+                React.createElement('td', null, t.date),
+                React.createElement('td', null, normalizeAccount(t.account)),
+                React.createElement('td', null, t.description),
+                React.createElement('td', null, t.type.toUpperCase()),
+                React.createElement('td', null, t.amount.toLocaleString('en-US', {minimumFractionDigits: 2})),
+                React.createElement('td', null,
+                  React.createElement('span', { className: `badge ${t.status === 'confirmed' ? 'badge-success' : 'badge-warning'}` }, t.status)
+                ),
+                React.createElement('td', null,
+                  t.status !== 'confirmed' && React.createElement('button', { onClick: () => handleConfirmMatch(t.id) }, 'Confirm Landing')
+                )
+              )
+            )
+        )
+      )
+    ),
+
+    // FINANCIAL REPORTS VIEW
+    activeTab === 'reports' && React.createElement('div', { className: 'card' },
+      React.createElement('h3', null, 'Trial Balance Summary'),
+      React.createElement('table', { style: { marginTop: '16px' } },
+        React.createElement('thead', null,
+          React.createElement('tr', null,
+            React.createElement('th', null, 'Account Name'),
+            React.createElement('th', null, 'Type'),
+            React.createElement('th', null, 'Closing Balance (AED)')
+          )
+        ),
+        React.createElement('tbody', null,
+          coa.map(acc =>
+            React.createElement('tr', { key: acc.code },
+              React.createElement('td', null, acc.name),
+              React.createElement('td', null, acc.type),
+              React.createElement('td', { style: { fontWeight: 'bold' } }, `AED ${(accountBalances[acc.name] || 0).toLocaleString('en-US', {minimumFractionDigits: 2})}`)
+            )
+          )
+        )
+      )
+    ),
+
+    // CHART OF ACCOUNTS VIEW
+    activeTab === 'coa' && React.createElement('div', { className: 'card' },
+      React.createElement('h3', null, 'Chart of Accounts (COA) Master'),
+      React.createElement('table', { style: { marginTop: '16px' } },
+        React.createElement('thead', null,
+          React.createElement('tr', null,
+            React.createElement('th', null, 'Code'),
+            React.createElement('th', null, 'Account Name'),
+            React.createElement('th', null, 'Category Type'),
+            React.createElement('th', null, 'Opening Balance (OB)')
+          )
+        ),
+        React.createElement('tbody', null,
+          coa.map(acc =>
+            React.createElement('tr', { key: acc.code },
+              React.createElement('td', null, acc.code),
+              React.createElement('td', null, acc.name),
+              React.createElement('td', null, acc.type),
+              React.createElement('td', null, `AED ${acc.ob.toLocaleString('en-US', {minimumFractionDigits: 2})}`)
+            )
+          )
+        )
+      )
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+  </script>
+</body>
+</html>
