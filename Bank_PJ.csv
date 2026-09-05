@@ -1,0 +1,92 @@
+Date,Description,Reference,Credit,Debit,Running Balance,Trigger
+20-11-2025,PettyCash_PJ, CWDR-PettyCash_PJ,,1502,9,PettyCash_PJ
+20-11-2025,Bank_CS, From Bank-CS TRTR/000062487481/20,1500,,1509,Bank_CS
+20-11-2025,OB, OB,1511,,3020,OB
+26-11-2025,PettyCash_PJ, CWDR-PettyCash_PJ,,18702,-15682,PettyCash_PJ
+26-11-2025,Bank_CS, From Bank-CS TRTR/000062534041/26,18700,,3018,Bank_CS
+09-12-2025,PettyCash_PJ, CWDR-PettyCash_PJ,,13002,-9984,PettyCash_PJ
+09-12-2025,Bank_CS, From Bank-CS TRTR/000062680731/09,13000,,3016,Bank_CS
+18-12-2025,PettyCash_PJ, CWDR-PettyCash_PJ,,5802,-2786,PettyCash_PJ
+18-12-2025,Bank_CS, From Bank-CS TRTR/000062793551/18,5800,,3014,Bank_CS
+23-12-2025,PettyCash_PJ, CWDR-PettyCash_PJ,,2002,1012,PettyCash_PJ
+23-12-2025,Bank_CS, From Bank-CS TRTR/000062842541/23,2000,,3012,Bank_CS
+26-12-2025,PettyCash_PJ, CWDR-PettyCash_PJ,,1252,1760,PettyCash_PJ
+26-12-2025,Bank_CS, From Bank-CS CWDR/2674424805/26,2002,,3762,Bank_CS
+26-12-2025,Bank_CS, From Bank-CS TRTR/000062881381/26,1250,,5012,Bank_CS
+28-12-2025,PettyCash_PJ, CWDR-PettyCash_PJ,,20302,-15290,PettyCash_PJ
+29-12-2025,Bank_CS, From Bank-CS TRTR/000062895541/28,20300,,5010,Bank_CS
+31-12-2025,Bank charges, Bank Charges,,16,4994,Bank charges
+05-01-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,6617,-1623,PettyCash_PJ
+05-01-2026,Bank_CS, From Bank-CS TRTR/000062982341/05,6615,,4992,Bank_CS
+07-01-2026,Bank_CS, From Bank-CS TRTR/000063022871/07,6700,,11692,Bank_CS
+08-01-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,6702,4990,PettyCash_PJ
+16-01-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,11000,-6010,PettyCash_PJ
+16-01-2026,Bank_CS, From Bank-CS TRTR/000063115951/16,11000,,4990,Bank_CS
+22-01-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,8502,-3512,PettyCash_PJ
+22-01-2026,Bank_CS, From Bank-CS TRTR,8500,,4988,Bank_CS
+27-01-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,18502,-13514,PettyCash_PJ
+27-01-2026,Bank_CS, From Bank-CS TRTR,18500,,4986,Bank_CS
+30-01-2026,Bank_CS, From Bank-CS TRTR/000063278861/30,500,,5486,Bank_CS
+31-01-2026,Bank charges, Bank Charges,,22,5464,Bank charges
+31-01-2026,Bank charges, Bank Charges,,6,5458,Bank charges
+31-01-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,502,4956,PettyCash_PJ
+08-02-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,13600,-8644,PettyCash_PJ
+09-02-2026,Bank_CS, From Bank-CS TRTR/000063394511/08,13600,,4956,Bank_CS
+12-02-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,3602,1354,PettyCash_PJ
+12-02-2026,Bank_CS, From Bank-CS TRTR/000063442581/12,3600,,4954,Bank_CS
+25-02-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,18002,-13048,PettyCash_PJ
+25-02-2026,Bank_CS, From Bank-CS TRTR/000063588021/25,18000,,4952,Bank_CS
+27-02-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,5000,-48,PettyCash_PJ
+27-02-2026,Bank_CS, From Bank-CS TRTR/000063614441/27,5000,,4952,Bank_CS
+28-02-2026,Bank charges, Bank Charges,,2,4950,Bank charges
+02-03-2026,PettyCash_PJ, CWDR-PettyCash_PJ,4502,,9452,PettyCash_PJ
+02-03-2026,Bank_CS, From Bank-CS TRTR/000063720271/07,,4502,4950,Bank_CS
+07-03-2026,Bank_CS, From Bank-CS To Petty Cash_PJ,,7000,-2050,Bank_CS
+07-03-2026,PettyCash_PJ, To CWDR-PettyCash_PJ TRTR-MAR,7002,,4952,PettyCash_PJ
+09-03-2026,PettyCash_PJ, CWDR-PettyCash_PJ,5000,,9952,PettyCash_PJ
+09-03-2026,Bank_CS, From Bank-CS TRTR/000063752401/10,,5000,4952,Bank_CS
+16-03-2026,PettyCash_PJ, CWDR-PettyCash_PJ,2202,,7154,PettyCash_PJ
+16-03-2026,Bank_CS, From Bank-CS TRTR/000063816261/16,,2202,4952,Bank_CS
+23-03-2026,PettyCash_PJ, CWDR-PettyCash_PJ,1500,,6452,PettyCash_PJ
+23-03-2026,Bank_CS, From Bank-CS TRTR/000063853941/23,,1500,4952,Bank_CS
+31-03-2026,Bank charges, SVC-MAR-2026,,80,4872,Bank charges
+31-03-2026,PettyCash_PJ, CWDR-PettyCash_PJ,2000,,6872,PettyCash_PJ
+31-03-2026,Bank_CS, From Bank-CS TRTR/000063949001/31,,2000,4872,Bank_CS
+02-04-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,6498,-1626,PettyCash_PJ
+02-04-2026,Bank_CS, From Bank-CS TRTR,6500,,4874,Bank_CS
+07-04-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,7998,-3124,PettyCash_PJ
+07-04-2026,Bank_CS, From Bank-CS TRTR,8000,,4876,Bank_CS
+17-04-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,1498,3378,PettyCash_PJ
+17-04-2026,Bank_CS, From Bank-CS TRTR,1500,,4878,Bank_CS
+18-04-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,5998,-1120,PettyCash_PJ
+18-04-2026,Bank_CS, From Bank-CS TRTR,6000,,4880,Bank_CS
+20-04-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,1498,3382,PettyCash_PJ
+20-04-2026,Bank_CS, From Bank-CS For PJ,1500,,4882,Bank_CS
+26-04-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,998,3884,PettyCash_PJ
+26-04-2026,Bank_CS, From Bank-CS TRTR,1000,,4884,Bank_CS
+02-05-2026,PettyCash_PJ, CWDR-PettyCash_PJ,,14998,-10114,PettyCash_PJ
+02-05-2026,Bank_CS, From Bank-CS TRTR,15000,,4886,Bank_CS
+02-05-2026,PettyCash_PJ,CWDR-PettyCash_PJ,,15000,-10114,PettyCash_PJ
+11-05-2026,Bank_CS,Bank_PJ |  Bank_PJ,4800,,-5314,Bank_CS
+11-05-2026,Bank_CS,Bank_PJ |  Bank_PJ,1000,,-4314,Bank_CS
+11-05-2026,PettyCash_PJ,CWDR-PettyCash_PJ,,1000,-5314,PettyCash_PJ
+11-05-2026,PettyCash_PJ,CWDR-PettyCash_PJ,,4800,-10114,PettyCash_PJ
+12-05-2026,Bank_CS,Bank_PJ |  Bank_PJ,3900,,-6214,Bank_CS
+31-05-2026,Bank_CS,Bank_PJ |  Bank_PJ,16300,,10086,Bank_CS
+31-05-2026,PettyCash_PJ,CWDR-PettyCash_PJ,,16300,-6214,PettyCash_PJ
+07-06-2026,PettyCash_PJ,CWDR-PettyCash_PJ,,15500,-21714,PettyCash_PJ
+27-06-2026,Bank_CS,Bank_PJ |  Bank_PJ,15500,,-6214,Bank_CS
+09-07-2026,Bank_CS,Bank_PJ |  Bank_PJ,5800,,-414,Bank_CS
+09-07-2026,PettyCash_PJ,CWDR-PettyCash_PJ,,5800,-6214,PettyCash_PJ
+10-07-2026,Bank_CS,Bank_PJ |  Bank_PJ,5002,,-1212,Bank_CS
+10-07-2026,Bank_CS,Bank_PJ |  Bank_PJ,3002,,1790,Bank_CS
+18-07-2026,Bank_CS,Bank_PJ |  Bank_PJ,3100,,4890,Bank_CS
+18-07-2026,PettyCash_PJ,CWDR-PettyCash_PJ,,3100,1790,PettyCash_PJ
+21-07-2026,Bank_CS,Bank_PJ |  Bank_PJ,2000,,3790,Bank_CS
+21-07-2026,Bank_CS,Bank_PJ |  Bank_PJ,2000,,5790,Bank_CS
+21-07-2026,PettyCash_PJ,CWDR-PettyCash_PJ,,2000,3790,PettyCash_PJ
+24-07-2026,PettyCash_PJ,CWDR-PettyCash_PJ,,2000,1790,PettyCash_PJ
+27-07-2026,Bank_CS,Bank_PJ |  Bank_PJ,20000,,21790,Bank_CS
+27-07-2026,PettyCash_PJ,CWDR-PettyCash_PJ,,20000,1790,PettyCash_PJ
+04-08-2026,Bank_CS,Bank_PJ |  Bank_PJ,1300,,3090,Bank_CS
+08-08-2026,Bank_CS,Bank_PJ |  Bank_PJ,1100,,4190,Bank_CS

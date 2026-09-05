@@ -1,0 +1,68 @@
+Account Name,Type,Sub,Code,Description
+Accounts Payable,Liability,,,Business
+Air Travel - Business,Expense,,,Business
+Bank & Card Annual Fees,Expense,,,Bank/Cards
+Bank Fees And Charges,Expense,,,Business
+Bank_CS,Asset,Cash & Bank,,Bank/Cards
+Bank_PJ,Asset,Cash & Bank,,Bank/Cards
+Bank_RK,Asset,Cash & Bank,,Bank/Cards
+Business Gifts & Client Entertainment,Expense,,,Business
+Capital Account,Equity,,,Business
+Credit Card Epp Instalments,Expense,,,Business
+Drawings,Equity,,,Business
+Electricity - Business Premises,Expense,,,Business
+General Maintenance & Repairs,Expense,,,Business
+It Hardware & Accessories,Expense,,,Business
+Licensing & Government Fees,Expense,,,Business
+Local Conveyance - Business,Expense,,,Business
+Mashreq_Cash,Asset,Cash & Bank,,Bank/Cards
+Mashreq_Main,Asset,Cash & Bank,,Bank/Cards
+Miscellaneous Business Expenses,Expense,,,Business
+Mobile & Telecom - Business,Expense,,,Business
+Office Rent,Expense,,,Business
+Opening Balance Equity,Equity,,,Business
+Owner's Current Account - RK,Equity,,,Business
+Personal - Air Travel,Equity,,,Personal
+Personal - Amazon Shopping,Equity,,,Personal
+Personal - Drinking Water,Equity,,,Personal
+Personal - Food & Dining,Equity,,,Personal
+Personal - General,Equity,,,Personal
+Personal - Grocery & Household,Equity,,,Personal
+Personal - Home Electricity,Equity,,,Personal
+Personal - House Rent,Equity,,,Personal
+Personal - Medical & Pharmacy,Equity,,,Personal
+Personal - Miscellaneous,Equity,,,Personal
+Personal - Mobile & Utilities,Equity,,,Personal
+Personal - Parking & Salik,Equity,,,Personal
+Personal - Shopping & Lifestyle,Equity,,,Personal
+Personal - Staff & Services,Equity,,,Personal
+Personal - Subscriptions & Software,Equity,,,Personal
+Personal - Travel & Conveyance,Equity,,,Personal
+Personal - Vehicle Fuel,Equity,,,Personal
+Personal - Vehicle Maintenance,Equity,,,Personal
+PettyCash_PJ,Asset,Cash & Bank,,Bank/Cards
+PJ_Cash,Asset,Cash & Bank,,Bank/Cards
+Post & Courier,Expense,,,Business
+Printing & Stationery,Expense,,,Business
+RK_Cash,Asset,Cash & Bank,,Bank/Cards
+Salaries And Employee Wages,Expense,,,Business
+Sales - Joinery & Interiors,Income,,,Business
+Software Subscriptions - Business,Expense,,,Business
+Staff Accommodation,Expense,,,Business
+Staff Allowances & Benefits,Expense,,,Business
+Staff Health & Medical,Expense,,,Business
+Staff Salaries,Expense,,,Business
+Taxi & Parking - Business,Expense,,,Business
+Tools & Equipment,Expense,,,Business
+Vat Payable,Liability,,,Business
+Vat Payment To Fta,Expense,,,Business
+Vehicle Fines - Business,Expense,,,Business
+Vehicle Fuel - Business,Expense,,,Business
+Vehicle Maintenance - Business,Expense,,,Business
+Vehicle Registration & Insurance,Expense,,,Business
+Vehicle Repair - Business,Expense,,,Business
+Visa & Immigration Fees - Staff,Expense,,,Business
+
+Accounts Receivable,Asset,,,Business
+Refunds & Reversals,Income,,,Business
+Other Income & Receipts,Income,,,Business

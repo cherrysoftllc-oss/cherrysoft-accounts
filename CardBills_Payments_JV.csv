@@ -1,0 +1,79 @@
+Date,Account,Card_Bill_JV_Reference,Journal Number,Notes,Debit,Credit,Currency
+09-11-2023,Mashreq_Main,JE-1,1001,Card bill Nov-23,22000,0,INR
+09-11-2023,PettyCash_PJ,JE-1,1001,Card bill paid Nov-23,0,22000,INR
+09-12-2023,Mashreq_Main,JE-2,1002,Card bill Dec-23,12000,0,INR
+09-12-2023,PettyCash_PJ,JE-2,1002,Card bill paid Dec-23,0,12000,INR
+09-01-2024,Mashreq_Main,JE-3,1003,Card bill Jan-24,4600,0,INR
+09-01-2024,PettyCash_PJ,JE-3,1003,Card bill paid Jan-24,0,4600,INR
+09-02-2024,Mashreq_Main,JE-4,1004,Card bill Feb-24,20000,0,INR
+09-02-2024,PettyCash_PJ,JE-4,1004,Card bill paid Feb-24,0,20000,INR
+09-03-2024,Mashreq_Main,JE-5,1005,Card bill Mar-24,7500,0,INR
+09-03-2024,PettyCash_PJ,JE-5,1005,Card bill paid Mar-24,0,7500,INR
+09-04-2024,Mashreq_Main,JE-6,1006,Card bill Apr-24,7200,0,INR
+09-04-2024,PettyCash_PJ,JE-6,1006,Card bill paid Apr-24,0,7200,INR
+09-05-2024,Mashreq_Main,JE-7,1007,Card bill May-24,10000,0,INR
+09-05-2024,PettyCash_PJ,JE-7,1007,Card bill paid May-24,0,10000,INR
+09-06-2024,Mashreq_Main,JE-8,1008,Card bill Jun-24,14000,0,INR
+09-06-2024,PettyCash_PJ,JE-8,1008,Card bill paid Jun-24,0,14000,INR
+09-07-2024,Mashreq_Main,JE-9,1009,Card bill Jul-24,8700,0,INR
+09-07-2024,PettyCash_PJ,JE-9,1009,Card bill paid Jul-24,0,8700,INR
+09-08-2024,Mashreq_Main,JE-10,1010,Card bill Aug-24,12300,0,INR
+09-08-2024,PettyCash_PJ,JE-10,1010,Card bill paid Aug-24,0,12300,INR
+09-09-2024,Mashreq_Main,JE-11,1011,Card bill Sep-24,5700,0,INR
+09-09-2024,PettyCash_PJ,JE-11,1011,Card bill paid Sep-24,0,5700,INR
+09-10-2024,Mashreq_Main,JE-12,1012,Card bill Oct-24,10000,0,INR
+09-10-2024,PettyCash_PJ,JE-12,1012,Card bill paid Oct-24,0,10000,INR
+09-11-2024,Mashreq_Main,JE-13,1013,Card bill Nov-24,17000,0,INR
+09-11-2024,RK_Cash,JE-13,1013,Card bill paid Nov-24,0,17000,INR
+09-12-2024,Mashreq_Main,JE-14,1014,Card bill Dec-24,7350,0,INR
+09-12-2024,PettyCash_PJ,JE-14,1014,Card bill paid Dec-24,0,7350,INR
+09-01-2025,Mashreq_Main,JE-15,1015,Card bill Jan-25,10200,0,INR
+09-01-2025,PettyCash_PJ,JE-15,1015,Card bill paid Jan-25,0,10200,INR
+09-02-2025,Mashreq_Main,JE-16,1016,Card bill Feb-25,5500,0,INR
+09-02-2025,PettyCash_PJ,JE-16,1016,Card bill paid Feb-25,0,5500,INR
+09-03-2025,Mashreq_Main,JE-17,1017,Card bill Mar-25,10500,0,INR
+09-03-2025,PettyCash_PJ,JE-17,1017,Card bill paid Mar-25,0,10500,INR
+09-04-2025,Mashreq_Main,JE-18,1018,Card bill Apr-25,7500,0,INR
+09-04-2025,PettyCash_PJ,JE-18,1018,Card bill paid Apr-25,0,7500,INR
+09-05-2025,Mashreq_Main,JE-19,1019,Card bill May-25,19000,0,INR
+09-05-2025,PettyCash_PJ,JE-19,1019,Card bill paid May-25,0,19000,INR
+09-06-2025,Mashreq_Main,JE-20,1020,Card bill Jun-25,8600,0,INR
+09-06-2025,PettyCash_PJ,JE-20,1020,Card bill paid Jun-25,0,8600,INR
+09-07-2025,Mashreq_Main,JE-21,1021,Card bill Jul-25,8900,0,INR
+09-07-2025,PettyCash_PJ,JE-21,1021,Card bill paid Jul-25,0,8900,INR
+09-08-2025,Mashreq_Main,JE-22,1022,Card bill Aug-25,12800,0,INR
+09-08-2025,PettyCash_PJ,JE-22,1022,Card bill paid Aug-25,0,12800,INR
+09-09-2025,Mashreq_Main,JE-23,1023,Card bill Sep-25,15100,0,INR
+09-09-2025,PettyCash_PJ,JE-23,1023,Card bill paid Sep-25,0,15100,INR
+09-10-2025,Mashreq_Main,JE-24,1024,Card bill Oct-25,7400,0,INR
+09-10-2025,PettyCash_PJ,JE-24,1024,Card bill paid Oct-25,0,7400,INR
+09-11-2025,Mashreq_Main,JE-25,1025,Card bill Nov-25,9300,0,INR
+09-11-2025,PettyCash_PJ,JE-25,1025,Card bill paid Nov-25,0,9300,INR
+09-12-2025,Mashreq_Main,JE-26,1026,Card bill Dec-25,8700,0,INR
+09-12-2025,PettyCash_PJ,JE-26,1026,Card bill paid Dec-25,0,8700,INR
+08-01-2026,Mashreq_Main,JE-27,1027,Card bill Jan-26,6700,0,INR
+08-01-2026,PettyCash_PJ,JE-27,1027,Card bill paid Jan-26,0,6700,INR
+18-01-2026,Mashreq_Cash,JE-28,1028,Card bill Jan-26 Cash,1020,0,INR
+18-01-2026,PettyCash_PJ,JE-28,1028,Card bill paid Jan-26 Cash,0,1020,INR
+09-02-2026,Mashreq_Main,JE-29,1029,Card bill Feb-26,13400,0,INR
+09-02-2026,PettyCash_PJ,JE-29,1029,Card bill paid Feb-26,0,13400,INR
+18-02-2026,Mashreq_Cash,JE-30,1030,Card bill Feb-26 Cash,3200,0,INR
+18-02-2026,PettyCash_PJ,JE-30,1030,Card bill paid Feb-26 Cash,0,3200,INR
+10-03-2026,Mashreq_Main,JE-31,1031,Card bill Mar-26,6900,0,INR
+10-03-2026,PettyCash_PJ,JE-31,1031,Card bill paid Mar-26,0,6900,INR
+18-03-2026,Mashreq_Cash,JE-32,1032,Card bill Mar-26 Cash,2200,0,INR
+18-03-2026,PettyCash_PJ,JE-32,1032,Card bill paid Mar-26 Cash,0,2200,INR
+10-04-2026,Mashreq_Main,JE-33,1033,Card bill paid Apl-26,11000,0,INR
+10-04-2026,RK_Cash,JE-33,1033,Card bill paid Apl-26,0,11000,INR
+18-04-2026,Mashreq_Cash,JE-34,1034,Card Bil -Apl 26,5000,0,INR
+18-04-2026,PettyCash_PJ,JE-34,1034,Card Bil -Apl 26,0,5000,INR
+10-05-2026,Mashreq_Main,JE-35,1035,Card Bil -May 26,6000,0,INR
+10-05-2026,RK_Cash,JE-35,1035,Card Bil -May 26,0,6000,INR
+20-05-2026,Mashreq_Cash,JE-36,1036,Card Bil -May 27,500,,INR
+20-05-2026,RK_Cash,JE-36,1036,Card Bil -May 28,,500,INR
+09-06-2026,Mashreq_Main,JE-37,1037,Card Bil -June 26,700,0,INR
+09-06-2026,PettyCash_PJ,JE-37,1037,Card Bil -June 26,0,700,INR
+10-07-2026,Mashreq_Main,JE-38,1038,Card Bil -July 26,5700,0,INR
+10-07-2026,PettyCash_PJ,JE-38,1038,Card Bil -July 26,0,5700,INR
+19-07-2026,Mashreq_Cash,JE-39,1039,Card bill July 26,3100,0,INR
+19-07-2026,Mashreq_Cash,JE-39,1039,Card Bil -July 26,0,3100,INR
