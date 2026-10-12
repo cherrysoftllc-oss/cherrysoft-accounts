@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CherrySoft Pro Accounts</title>
+  <script src="https://accounts.google.com/gsi/client"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js" crossorigin></script>
+  <script src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js" crossorigin></script>
+  <style>
+    :root {
+      --bg: #0b0e14;
+      --surface: #161b22;
+      --surface-hover: #1c2128;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --accent-soft: rgba(88, 166, 255, 0.1);
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --green: #3fb950;
+      --red: #f85149;
+      --amber: #d29922;
+      --sidebar-w: 240px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      background: var(--bg); 
+      color: var(--text); 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    #root { display: flex; min-height: 100vh; }
+    
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; }
+    th { 
+      position: sticky; top: 0; z-index: 10;
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    td { padding: 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:hover td { background: var(--surface-hover); }
+
+    /* Inputs */
+    input, select, textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+    }
+    input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .btn:hover { background: var(--surface-hover); border-color: var(--text-muted); }
+    .btn-primary { background: var(--accent); color: #fff; border: none; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-danger { color: var(--red); border-color: rgba(248, 81, 73, 0.3); }
+    .btn-danger:hover { background: rgba(248, 81, 73, 0.1); }
+
+    /* Layout */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .main { flex: 1; padding: 24px; overflow-y: auto; max-width: 1600px; margin: 0 auto; width: 100%; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    
+    .badge { padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+    .badge-paid { background: rgba(63, 185, 80, 0.15); color: var(--green); }
+    .badge-unpaid { background: rgba(248, 81, 73, 0.15); color: var(--red); }
+    
+    @media print {
+      .sidebar, .no-print { display: none !important; }
+      .main { padding: 0; overflow: visible; }
+      body { background: #fff; color: #000; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    const { useState, useMemo, useEffect, useCallback, useRef, Fragment } = React;
+
+    // ── MATHS ENGINE ─────────────────────────────────────────────────────────
+    const MathEngine = {
+      round: (n) => Math.round((n + Number.EPSILON) * 100) / 100,
+      
+      // True Balance Sheet logic
+      // Assets = Liabilities + Equity
+      // Debits (Assets/Expenses) - Credits (Liabilities/Income/Equity) = 0
+      calculateBalances: (txns, coa) => {
+        const balances = {};
+        coa.forEach(a => balances[a.name] = 0);
+        
+        txns.forEach(t => {
+          // Standard: Every transaction is a movement from Contra (Cr) to Source (Dr)
+          // or a signed amount in Source.
+          const amt = t.amount;
+          balances[t.sourceAccount] = MathEngine.round((balances[t.sourceAccount] || 0) + amt);
+          balances[t.contraAccount] = MathEngine.round((balances[t.contraAccount] || 0) - amt);
+        });
+        return balances;
+      },
+
+      trialBalance: (balances, coa) => {
+        let totalDr = 0, totalCr = 0;
+        coa.forEach(a => {
+          const b = balances[a.name] || 0;
+          if (a.type === 'Asset' || a.type === 'Expense') {
+            b >= 0 ? totalDr += b : totalCr += Math.abs(b);
+          } else {
+            b >= 0 ? totalCr += b : totalDr += Math.abs(b);
+          }
+        });
+        return { totalDr: MathEngine.round(totalDr), totalCr: MathEngine.round(totalCr), balanced: Math.abs(totalDr - totalCr) < 0.01 };
+      }
+    };
+
+    // ── CONFIG & CONSTANTS ───────────────────────────────────────────────────
+    const APP_VERSION = "4.0 PRO";
+    const GOOGLE_CLIENT_ID = "916785261941-vc25phs8dn3vlmcn7lqggnuppsg3ug0p.apps.googleusercontent.com";
+    
+    // ── COMPONENTS ───────────────────────────────────────────────────────────
+    
+    function KPI({ label, value, color, subValue }) {
+      return (
+        <div className="card" style={{ padding: '16px', marginBottom: 0 }}>
+          <div style={{ color: 'var(--text-muted)', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' }}>{label}</div>
+          <div style={{ fontSize: '24px', fontWeight: 800, color: color || 'var(--text)', margin: '4px 0' }}>{value}</div>
+          {subValue && <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{subValue}</div>}
+        </div>
+      );
+    }
+
+    function App() {
+      const [page, setPage] = useState('dashboard');
+      const [txns, setTxns] = useState([]);
+      const [invoices, setInvoices] = useState([]);
+      const [coa, setCoa] = useState(CHERRYSOFT_COA);
+      const [driveToken, setDriveToken] = useState(null);
+      const [isSaving, setIsSaving] = useState(false);
+
+      // Memoized Accounting Reports
+      const balances = useMemo(() => MathEngine.calculateBalances(txns, coa), [txns, coa]);
+      const trialBalance = useMemo(() => MathEngine.trialBalance(balances, coa), [balances, coa]);
+
+      // Persistence Logic
+      useEffect(() => {
+        const saved = localStorage.getItem('cs_pro_data');
+        if (saved) {
+          const d = JSON.parse(saved);
+          setTxns(d.txns.map(t => ({...t, date: new Date(t.date)})));
+          setInvoices(d.invoices.map(i => ({...i, date: new Date(i.date)})));
+        }
+      }, []);
+
+      useEffect(() => {
+        const debounce = setTimeout(() => {
+          localStorage.setItem('cs_pro_data', JSON.stringify({ txns, invoices }));
+        }, 1000);
+        return () => clearTimeout(debounce);
+      }, [txns, invoices]);
+
+      // ── UI RENDERERS ───────────────────────────────────────────────────────
+      
+      const renderSidebar = () => (
+        <div className="sidebar">
+          <div style={{ padding: '24px 16px', borderBottom: '1px solid var(--border)' }}>
+            <div style={{ fontSize: '16px', fontWeight: 800, color: '#fff' }}>CHERRYSOFT<span style={{color: var(--accent)}}>PRO</span></div>
+            <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>v{APP_VERSION} • {trialBalance.balanced ? '✅ System Balanced' : '❌ Out of Balance'}</div>
+          </div>
+          <nav style={{ padding: '16px 0', flex: 1 }}>
+            {[
+              { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+              { id: 'banking', label: 'Banking', icon: '🏦' },
+              { id: 'invoices', label: 'Sales Invoices', icon: '🧾' },
+              { id: 'expenses', label: 'Expenses', icon: '🛒' },
+              { id: 'coa', label: 'Accounts', icon: '📑' },
+              { id: 'accuracy', label: 'Audit & Accuracy', icon: '🔍' },
+            ].map(item => (
+              <div 
+                key={item.id}
+                onClick={() => setPage(item.id)}
+                style={{
+                  padding: '12px 20px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  background: page === item.id ? 'var(--accent-soft)' : 'transparent',
+                  borderLeft: `4px solid ${page === item.id ? 'var(--accent)' : 'transparent'}`,
+                  color: page === item.id ? 'var(--accent)' : 'var(--text)'
+                }}
+              >
+                <span>{item.icon}</span> {item.label}
+              </div>
+            ))}
+          </nav>
+          <div style={{ padding: '16px', borderTop: '1px solid var(--border)' }}>
+             <button className="btn" style={{ width: '100%' }} onClick={() => downloadBackup({txns, invoices, coa})}>💾 Export Backup</button>
+          </div>
+        </div>
+      );
+
+      const renderDashboard = () => {
+        const totalCash = coa.filter(a => a.sub === 'Cash & Bank').reduce((s, a) => s + (balances[a.name] || 0), 0);
+        const outstandingAR = invoices.reduce((s, i) => s + (i.total - (i.paidAmount || 0)), 0);
+        
+        return (
+          <div>
+            <h1 style={{ marginBottom: '24px' }}>Executive Summary</h1>
+            <div className="kpi-grid">
+              <KPI label="Total Liquidity" value={fmtAED(totalCash)} color={totalCash >= 0 ? 'var(--green)' : 'var(--red)'} subValue="All bank & cash accounts" />
+              <KPI label="Receivables" value={fmtAED(outstandingAR)} color="var(--accent)" subValue={`${invoices.filter(i => i.status !== 'paid').length} open invoices`} />
+              <KPI label="System Health" value={trialBalance.balanced ? "Balanced" : "Error"} color={trialBalance.balanced ? 'var(--green)' : 'var(--red)'} subValue={`Dr/Cr Diff: ${fmtAED(trialBalance.totalDr - trialBalance.totalCr)}`} />
+            </div>
+            
+            <div className="card">
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <h2 style={{ fontSize: '14px' }}>Recent Activity</h2>
+                <button className="btn btn-primary" onClick={() => setPage('banking')}>View All</button>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Account</th>
+                    <th>Description</th>
+                    <th style={{ textAlign: 'right' }}>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {txns.slice(-5).reverse().map(t => (
+                    <tr key={t.id}>
+                      <td>{fmtDate(t.date)}</td>
+                      <td style={{ color: 'var(--accent)' }}>{t.sourceAccount}</td>
+                      <td>{t.description}</td>
+                      <td style={{ textAlign: 'right', fontWeight: 700, color: t.amount < 0 ? 'var(--red)' : 'var(--green)' }}>
+                        {fmtAED(t.amount)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      };
+
+      const renderAccuracy = () => (
+        <div>
+          <h1>Audit & Accuracy Check</h1>
+          <div className="card" style={{ borderLeft: `4px solid ${trialBalance.balanced ? 'var(--green)' : 'var(--red)'}` }}>
+            <h3>Double-Entry Trial Balance</h3>
+            <p style={{ color: 'var(--text-muted)', margin: '8px 0' }}>
+              In a perfect system, the sum of all Debits minus the sum of all Credits must equal zero.
+            </p>
+            <div style={{ display: 'flex', gap: '40px', marginTop: '16px' }}>
+              <div>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>TOTAL DEBITS</div>
+                <div style={{ fontSize: '20px', fontWeight: 800 }}>{fmtAED(trialBalance.totalDr)}</div>
+              </div>
+              <div>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>TOTAL CREDITS</div>
+                <div style={{ fontSize: '20px', fontWeight: 800 }}>{fmtAED(trialBalance.totalCr)}</div>
+              </div>
+              <div>
+                <div style={{ fontSize: '10px', color: 'var(--text-muted)' }}>DIFFERENCE</div>
+                <div style={{ fontSize: '20px', fontWeight: 800, color: trialBalance.balanced ? 'var(--green)' : 'var(--red)' }}>
+                  {fmtAED(trialBalance.totalDr - trialBalance.totalCr)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="card">
+            <h3>Suspense Clean-up</h3>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '12px' }}>Transactions requiring manual categorization.</p>
+            {txns.filter(t => t.contraAccount === 'Suspense').length === 0 ? (
+              <div style={{ color: 'var(--green)', fontWeight: 600 }}>✨ All transactions categorized!</div>
+            ) : (
+              <table>
+                {/* Suspense Table here */}
+              </table>
+            )}
+          </div>
+        </div>
+      );
+
+      return (
+        <Fragment>
+          {renderSidebar()}
+          <main className="main">
+            {page === 'dashboard' && renderDashboard()}
+            {page === 'accuracy' && renderAccuracy()}
+            {page === 'banking' && <BankViewPage txns={txns} balances={balances} coa={coa} />}
+            {/* ... other pages */}
+          </main>
+        </Fragment>
+      );
+    }
+
+    // ── HELPERS ──────────────────────────────────────────────────────────────
+    const fmtAED = (n) => 'AED ' + Number(n || 0).toLocaleString('en-AE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmtDate = (d) => d ? new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+
+    const CHERRYSOFT_COA = [
+      { code: "1000", name: "Bank_CS", type: "Asset", sub: "Cash & Bank" },
+      { code: "1100", name: "PettyCash_PJ", type: "Asset", sub: "Cash & Bank" },
+      { code: "1200", name: "Accounts Receivable", type: "Asset", sub: "Receivables" },
+      { code: "2000", name: "Mashreq_Main", type: "Liability", sub: "Credit Cards" },
+      { code: "4000", name: "Revenue", type: "Income", sub: "Sales" },
+      { code: "6000", name: "Office Rent", type: "Expense", sub: "Admin" },
+      { code: "9999", name: "Suspense", type: "Asset", sub: "Clearing" }
+    ];
+
+    // Mount
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(App));
+  </script>
+</body>
+</html>
