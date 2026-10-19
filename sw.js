@@ -1,6 +1,6 @@
-// CherrySoft Accounts service worker v4.1
+// CherrySoft Accounts service worker v4.2
 // Network-first (always fetches the newest file, bypassing HTTP cache); falls back to cache when offline.
-const CACHE = "cherrysoft-4.1";
+const CACHE = "cherrysoft-4.2";
 self.addEventListener("install", e => { self.skipWaiting(); });
 self.addEventListener("activate", e => {
   e.waitUntil((async () => {
