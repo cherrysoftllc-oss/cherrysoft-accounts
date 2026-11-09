@@ -1,0 +1,3342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cherry Soft Interiors L.L.C - Accounts & UAE FTA VAT 201</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #fff !important; color: #000 !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans">
+  <div class="max-w-7xl mx-auto px-4 py-6">
+    <!-- Header -->
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 border-b border-slate-800 gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🍒</span>
+          <h1 class="text-2xl font-black text-white">Cherry Soft Interiors L.L.C</h1>
+        </div>
+        <p class="text-xs text-slate-400 mt-1">
+          TRN: <span class="font-mono text-indigo-400 font-bold">100011693700003</span> · UAE Federal Tax Authority VAT 201 Engine
+        </p>
+      </div>
+      <div class="flex items-center gap-2 no-print">
+        <button onclick="window.print()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-xs font-semibold">
+          Print / PDF
+        </button>
+        <button onclick="downloadJsonData()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded text-xs font-semibold">
+          Export JSON
+        </button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="flex gap-2 my-6 overflow-x-auto border-b border-slate-800 pb-2 no-print text-sm font-semibold">
+      <button onclick="switchTab('dashboard')" id="tab-dashboard" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white">Dashboard</button>
+      <button onclick="switchTab('vat')" id="tab-vat" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white">VAT Return 201</button>
+      <button onclick="switchTab('txns')" id="tab-txns" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white">Transactions (57)</button>
+      <button onclick="switchTab('invoices')" id="tab-invoices" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white">Invoices (66)</button>
+      <button onclick="switchTab('pl')" id="tab-pl" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white">P&L Statement</button>
+    </nav>
+
+    <!-- Main Container -->
+    <div id="content-area"></div>
+  </div>
+
+  <script id="embedded-accounting-data" type="application/json">
+{
+  "txns": [
+    {
+      "id": 81063,
+      "date": "2026-07-11T00:00:00.000Z",
+      "description": "Customer payment received: GT-066 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-066",
+      "trigger": "Client Payment",
+      "amount": 30126.6,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 30126.6
+    },
+    {
+      "id": 81061,
+      "date": "2026-06-10T00:00:00.000Z",
+      "description": "Customer payment received: GT-065 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-065",
+      "trigger": "Client Payment",
+      "amount": 32508,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 32508
+    },
+    {
+      "id": 81060,
+      "date": "2026-06-04T00:00:00.000Z",
+      "description": "Customer payment received: VW-011 - VisionWood International LLC",
+      "ref": "REC-VW-011",
+      "trigger": "Client Payment",
+      "amount": 6327.83,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "VisionWood International LLC",
+      "accountSide": 6327.83
+    },
+    {
+      "id": 81058,
+      "date": "2026-05-05T00:00:00.000Z",
+      "description": "Customer payment received: GT-064 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-064",
+      "trigger": "Client Payment",
+      "amount": 24399.9,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 24399.9
+    },
+    {
+      "id": 81056,
+      "date": "2026-03-30T00:00:00.000Z",
+      "description": "Customer payment received: GT-063 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-063",
+      "trigger": "Client Payment",
+      "amount": 28236.6,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 28236.6
+    },
+    {
+      "id": 81054,
+      "date": "2026-03-07T00:00:00.000Z",
+      "description": "Customer payment received: GT-062 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-062",
+      "trigger": "Client Payment",
+      "amount": 28841.4,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 28841.4
+    },
+    {
+      "id": 81052,
+      "date": "2026-02-27T00:00:00.000Z",
+      "description": "Customer payment received: VW-010 - VisionWood International LLC",
+      "ref": "REC-VW-010",
+      "trigger": "Client Payment",
+      "amount": 2520,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "VisionWood International LLC",
+      "accountSide": 2520
+    },
+    {
+      "id": 81051,
+      "date": "2026-02-09T00:00:00.000Z",
+      "description": "Customer payment received: GT-061B - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-061B",
+      "trigger": "Client Payment",
+      "amount": 21357,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 21357
+    },
+    {
+      "id": 81049,
+      "date": "2026-01-03T00:00:00.000Z",
+      "description": "Customer payment received: VW-008 - VisionWood International LLC",
+      "ref": "REC-VW-008",
+      "trigger": "Client Payment",
+      "amount": 18831.75,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "VisionWood International LLC",
+      "accountSide": 18831.75
+    },
+    {
+      "id": 81048,
+      "date": "2026-01-01T00:00:00.000Z",
+      "description": "Customer payment received: SH-034 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-034",
+      "trigger": "Client Payment",
+      "amount": 13322,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 13322
+    },
+    {
+      "id": 81047,
+      "date": "2025-12-31T00:00:00.000Z",
+      "description": "Customer payment received: VW-009 - VisionWood International LLC",
+      "ref": "REC-VW-009",
+      "trigger": "Client Payment",
+      "amount": 22915.2,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "VisionWood International LLC",
+      "accountSide": 22915.2
+    },
+    {
+      "id": 81046,
+      "date": "2025-12-01T00:00:00.000Z",
+      "description": "Customer payment received: SH-033 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-033",
+      "trigger": "Client Payment",
+      "amount": 30424.8,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 30424.8
+    },
+    {
+      "id": 81045,
+      "date": "2025-11-19T00:00:00.000Z",
+      "description": "Customer payment received: VW-005R - VisionWood International LLC",
+      "ref": "REC-VW-005R",
+      "trigger": "Client Payment",
+      "amount": 44620.8,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "VisionWood International LLC",
+      "accountSide": 44620.8
+    },
+    {
+      "id": 81044,
+      "date": "2025-11-16T00:00:00.000Z",
+      "description": "Customer payment received: VW-006 - VisionWood International LLC",
+      "ref": "REC-VW-006",
+      "trigger": "Client Payment",
+      "amount": 17640,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "VisionWood International LLC",
+      "accountSide": 17640
+    },
+    {
+      "id": 81043,
+      "date": "2025-11-01T00:00:00.000Z",
+      "description": "Customer payment received: SH-032 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-032",
+      "trigger": "Client Payment",
+      "amount": 35380.8,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 35380.8
+    },
+    {
+      "id": 81042,
+      "date": "2025-10-02T00:00:00.000Z",
+      "description": "Customer payment received: SH-031 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-031",
+      "trigger": "Client Payment",
+      "amount": 47560.8,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 47560.8
+    },
+    {
+      "id": 81041,
+      "date": "2025-09-18T00:00:00.000Z",
+      "description": "Customer payment received: VW-005 - VisionWood International LLC",
+      "ref": "REC-VW-005",
+      "trigger": "Client Payment",
+      "amount": 22653.23,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "VisionWood International LLC",
+      "accountSide": 22653.23
+    },
+    {
+      "id": 81040,
+      "date": "2025-09-04T00:00:00.000Z",
+      "description": "Customer payment received: SH-030 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-030",
+      "trigger": "Client Payment",
+      "amount": 30920.4,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 30920.4
+    },
+    {
+      "id": 81039,
+      "date": "2025-08-31T00:00:00.000Z",
+      "description": "Customer payment received: VW-004 - VisionWood International LLC",
+      "ref": "REC-VW-004",
+      "trigger": "Client Payment",
+      "amount": 7068.29,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "VisionWood International LLC",
+      "accountSide": 7068.29
+    },
+    {
+      "id": 81038,
+      "date": "2025-08-04T00:00:00.000Z",
+      "description": "Customer payment received: SH-029 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-029",
+      "trigger": "Client Payment",
+      "amount": 31315.2,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 31315.2
+    },
+    {
+      "id": 81037,
+      "date": "2025-07-13T00:00:00.000Z",
+      "description": "Customer payment received: VW-003 - VisionWood International LLC",
+      "ref": "REC-VW-003",
+      "trigger": "Client Payment",
+      "amount": 48463.22,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "VisionWood International LLC",
+      "accountSide": 48463.22
+    },
+    {
+      "id": 81036,
+      "date": "2025-07-05T00:00:00.000Z",
+      "description": "Customer payment received: SH-028 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-028",
+      "trigger": "Client Payment",
+      "amount": 36019.2,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 36019.2
+    },
+    {
+      "id": 81035,
+      "date": "2025-06-04T00:00:00.000Z",
+      "description": "Customer payment received: SH-027 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-027",
+      "trigger": "Client Payment",
+      "amount": 34003.2,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 34003.2
+    },
+    {
+      "id": 81034,
+      "date": "2025-05-05T00:00:00.000Z",
+      "description": "Customer payment received: SH-026 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-026",
+      "trigger": "Client Payment",
+      "amount": 24528,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 24528
+    },
+    {
+      "id": 81033,
+      "date": "2025-03-05T00:00:00.000Z",
+      "description": "Customer payment received: SH-025 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-025",
+      "trigger": "Client Payment",
+      "amount": 28224,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 28224
+    },
+    {
+      "id": 81032,
+      "date": "2025-03-25T00:00:00.000Z",
+      "description": "Customer payment received: VW-002 - VisionWood International LLC",
+      "ref": "REC-VW-002",
+      "trigger": "Client Payment",
+      "amount": 31060.04,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "VisionWood International LLC",
+      "accountSide": 31060.04
+    },
+    {
+      "id": 81031,
+      "date": "2025-03-07T00:00:00.000Z",
+      "description": "Customer payment received: SH-024 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-024",
+      "trigger": "Client Payment",
+      "amount": 36960,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 36960
+    },
+    {
+      "id": 81030,
+      "date": "2025-02-27T00:00:00.000Z",
+      "description": "Customer payment received: VW-001 - VisionWood International LLC",
+      "ref": "REC-VW-001",
+      "trigger": "Client Payment",
+      "amount": 10984.91,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "VisionWood International LLC",
+      "accountSide": 10984.91
+    },
+    {
+      "id": 81029,
+      "date": "2025-02-13T00:00:00.000Z",
+      "description": "Customer payment received: GT-061A - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-061A",
+      "trigger": "Client Payment",
+      "amount": 12079.2,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 12079.2
+    },
+    {
+      "id": 81028,
+      "date": "2025-02-04T00:00:00.000Z",
+      "description": "Customer payment received: SH-023 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-023",
+      "trigger": "Client Payment",
+      "amount": 36842.4,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 36842.4
+    },
+    {
+      "id": 81027,
+      "date": "2025-01-10T00:00:00.000Z",
+      "description": "Customer payment received: GT-060 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-060",
+      "trigger": "Client Payment",
+      "amount": 33516,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 33516
+    },
+    {
+      "id": 81026,
+      "date": "2025-01-04T00:00:00.000Z",
+      "description": "Customer payment received: SH-022 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-022",
+      "trigger": "Client Payment",
+      "amount": 30945.6,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 30945.6
+    },
+    {
+      "id": 81025,
+      "date": "2024-12-11T00:00:00.000Z",
+      "description": "Customer payment received: GT-059 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-059",
+      "trigger": "Client Payment",
+      "amount": 31180.8,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 31180.8
+    },
+    {
+      "id": 81024,
+      "date": "2024-12-05T00:00:00.000Z",
+      "description": "Customer payment received: SH-021 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-021",
+      "trigger": "Client Payment",
+      "amount": 30038.4,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 30038.4
+    },
+    {
+      "id": 81023,
+      "date": "2024-11-04T00:00:00.000Z",
+      "description": "Customer payment received: SH-020 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-020",
+      "trigger": "Client Payment",
+      "amount": 24998.4,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 24998.4
+    },
+    {
+      "id": 81022,
+      "date": "2024-10-11T00:00:00.000Z",
+      "description": "Customer payment received: GT-058 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-058",
+      "trigger": "Client Payment",
+      "amount": 33264,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 33264
+    },
+    {
+      "id": 81021,
+      "date": "2024-10-11T00:00:00.000Z",
+      "description": "Customer payment received: GT-057 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-057",
+      "trigger": "Client Payment",
+      "amount": 35784,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 35784
+    },
+    {
+      "id": 81020,
+      "date": "2024-10-05T00:00:00.000Z",
+      "description": "Customer payment received: SH-019 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-019",
+      "trigger": "Client Payment",
+      "amount": 24864,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 24864
+    },
+    {
+      "id": 81019,
+      "date": "2024-09-10T00:00:00.000Z",
+      "description": "Customer payment received: GT-056 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-056",
+      "trigger": "Client Payment",
+      "amount": 35616,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 35616
+    },
+    {
+      "id": 81018,
+      "date": "2024-09-04T00:00:00.000Z",
+      "description": "Customer payment received: SH-018 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-018",
+      "trigger": "Client Payment",
+      "amount": 24192,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 24192
+    },
+    {
+      "id": 81017,
+      "date": "2024-08-10T00:00:00.000Z",
+      "description": "Customer payment received: GT-055 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-055",
+      "trigger": "Client Payment",
+      "amount": 26712,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 26712
+    },
+    {
+      "id": 81016,
+      "date": "2024-08-04T00:00:00.000Z",
+      "description": "Customer payment received: SH-017 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-017",
+      "trigger": "Client Payment",
+      "amount": 21134.4,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 21134.4
+    },
+    {
+      "id": 81015,
+      "date": "2024-07-12T00:00:00.000Z",
+      "description": "Customer payment received: SH-016 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-016",
+      "trigger": "Client Payment",
+      "amount": 19639.2,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 19639.2
+    },
+    {
+      "id": 81014,
+      "date": "2024-07-11T00:00:00.000Z",
+      "description": "Customer payment received: GT-054 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-054",
+      "trigger": "Client Payment",
+      "amount": 29803.2,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 29803.2
+    },
+    {
+      "id": 81013,
+      "date": "2024-06-11T00:00:00.000Z",
+      "description": "Customer payment received: SH-015 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-015",
+      "trigger": "Client Payment",
+      "amount": 5174.4,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 5174.4
+    },
+    {
+      "id": 81012,
+      "date": "2024-06-10T00:00:00.000Z",
+      "description": "Customer payment received: GT-053 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-053",
+      "trigger": "Client Payment",
+      "amount": 23310,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 23310
+    },
+    {
+      "id": 81011,
+      "date": "2024-05-11T00:00:00.000Z",
+      "description": "Customer payment received: GT-052 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-052",
+      "trigger": "Client Payment",
+      "amount": 41546.4,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 41546.4
+    },
+    {
+      "id": 81010,
+      "date": "2024-04-10T00:00:00.000Z",
+      "description": "Customer payment received: GT-051 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-051",
+      "trigger": "Client Payment",
+      "amount": 38640,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 38640
+    },
+    {
+      "id": 81009,
+      "date": "2024-03-24T00:00:00.000Z",
+      "description": "Customer payment received: SH-014 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-014",
+      "trigger": "Client Payment",
+      "amount": 15187.2,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 15187.2
+    },
+    {
+      "id": 81008,
+      "date": "2024-03-11T00:00:00.000Z",
+      "description": "Customer payment received: GT-050 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-050",
+      "trigger": "Client Payment",
+      "amount": 25653.6,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 25653.6
+    },
+    {
+      "id": 81007,
+      "date": "2024-03-04T00:00:00.000Z",
+      "description": "Customer payment received: SH-013 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-013",
+      "trigger": "Client Payment",
+      "amount": 32558.4,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 32558.4
+    },
+    {
+      "id": 81006,
+      "date": "2024-02-19T00:00:00.000Z",
+      "description": "Customer payment received: GT-049 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-049",
+      "trigger": "Client Payment",
+      "amount": 25023.6,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 25023.6
+    },
+    {
+      "id": 81005,
+      "date": "2024-02-02T00:00:00.000Z",
+      "description": "Customer payment received: SH-012 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-012",
+      "trigger": "Client Payment",
+      "amount": 33398.4,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 33398.4
+    },
+    {
+      "id": 81004,
+      "date": "2024-01-26T00:00:00.000Z",
+      "description": "Customer payment received: GT-048 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-048",
+      "trigger": "Client Payment",
+      "amount": 26527.2,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 26527.2
+    },
+    {
+      "id": 81003,
+      "date": "2024-01-02T00:00:00.000Z",
+      "description": "Customer payment received: SH-011 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-011",
+      "trigger": "Client Payment",
+      "amount": 40924.8,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 40924.8
+    },
+    {
+      "id": 81002,
+      "date": "2023-12-10T00:00:00.000Z",
+      "description": "Customer payment received: GT-047 - Golden Tower Metal Industries LLC",
+      "ref": "REC-GT-047",
+      "trigger": "Client Payment",
+      "amount": 32491.2,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Golden Tower Metal Industries LLC",
+      "accountSide": 32491.2
+    },
+    {
+      "id": 81001,
+      "date": "2023-12-03T00:00:00.000Z",
+      "description": "Customer payment received: SH-010 - Sharif Carpentry and Decor LLC",
+      "ref": "REC-SH-010",
+      "trigger": "Client Payment",
+      "amount": 43041.6,
+      "sourceAccount": "Bank_CS",
+      "contraAccount": "Accounts Receivable",
+      "label": "Customer Payment",
+      "matched": true,
+      "source": "Sales Invoices",
+      "type": "bank",
+      "clientHint": "Sharif Carpentry and Decor LLC",
+      "accountSide": 43041.6
+    }
+  ],
+  "invoices": [
+    {
+      "id": 1066,
+      "invNo": "GT-068",
+      "date": "2026-08-15T00:00:00.000Z",
+      "dueDate": "2026-08-30T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "32021/32",
+      "description": "Joinery Installation @18",
+      "qty": 3308.5,
+      "unit": "Hrs",
+      "rate": 18,
+      "amount": 59553,
+      "vatPct": 5,
+      "vat": 2977.65,
+      "total": 62530.65,
+      "paidAmount": 0,
+      "status": "unpaid",
+      "paymentTerms": "Net 15",
+      "workDoneMonth": "Jul-26"
+    },
+    {
+      "id": 1065,
+      "invNo": "GT-067",
+      "date": "2026-07-20T00:00:00.000Z",
+      "dueDate": "2026-07-20T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "32021/31",
+      "description": "Joinery Installation @18",
+      "qty": 2529,
+      "unit": "Hrs",
+      "rate": 18,
+      "amount": 45522,
+      "vatPct": 5,
+      "vat": 2276.1,
+      "total": 47798.1,
+      "paidAmount": 0,
+      "status": "unpaid",
+      "paymentTerms": "Due on Receipt",
+      "workDoneMonth": "Jun-26"
+    },
+    {
+      "id": 1064,
+      "invNo": "SH-041",
+      "date": "2026-07-03T00:00:00.000Z",
+      "dueDate": "2026-07-03T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 216,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 3456,
+      "vatPct": 5,
+      "vat": 172.8,
+      "total": 3628.8,
+      "paidAmount": 0,
+      "status": "unpaid",
+      "paymentTerms": "Due on Receipt",
+      "workDoneMonth": "Jun-26"
+    },
+    {
+      "id": 1063,
+      "invNo": "GT-066",
+      "date": "2026-06-11T00:00:00.000Z",
+      "dueDate": "2026-07-11T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "32021/30",
+      "description": "Joinery Installation @18",
+      "qty": 1594,
+      "unit": "Hrs",
+      "rate": 18,
+      "amount": 28692,
+      "vatPct": 5,
+      "vat": 1434.6,
+      "total": 30126.6,
+      "paidAmount": 30126.6,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "May-26"
+    },
+    {
+      "id": 1062,
+      "invNo": "SH-040",
+      "date": "2026-06-10T00:00:00.000Z",
+      "dueDate": "2026-06-25T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 804,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 12864,
+      "vatPct": 5,
+      "vat": 643.2,
+      "total": 13507.2,
+      "paidAmount": 0,
+      "status": "unpaid",
+      "paymentTerms": "Net 15",
+      "workDoneMonth": "May-26"
+    },
+    {
+      "id": 1061,
+      "invNo": "GT-065",
+      "date": "2026-06-03T00:00:00.000Z",
+      "dueDate": "2026-06-10T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "32021/29",
+      "description": "Joinery Installation @18",
+      "qty": 1720,
+      "unit": "Hrs",
+      "rate": 18,
+      "amount": 30960,
+      "vatPct": 5,
+      "vat": 1548,
+      "total": 32508,
+      "paidAmount": 32508,
+      "status": "paid",
+      "paymentTerms": "Custom",
+      "workDoneMonth": "April"
+    },
+    {
+      "id": 1060,
+      "invNo": "VW-011",
+      "date": "2026-05-20T00:00:00.000Z",
+      "dueDate": "2026-06-04T00:00:00.000Z",
+      "client": "VisionWood International LLC",
+      "clientTrn": "100060237300003",
+      "poNumber": "8620561",
+      "description": "Retention Release",
+      "qty": 1,
+      "unit": "LS",
+      "rate": 6026.5,
+      "amount": 6026.5,
+      "vatPct": 5,
+      "vat": 301.33,
+      "total": 6327.83,
+      "paidAmount": 6327.83,
+      "status": "paid",
+      "paymentTerms": "Net 15",
+      "workDoneMonth": "Feb-26"
+    },
+    {
+      "id": 1059,
+      "invNo": "SH-039",
+      "date": "2026-05-04T00:00:00.000Z",
+      "dueDate": "2026-05-04T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 660,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 10560,
+      "vatPct": 5,
+      "vat": 528,
+      "total": 11088,
+      "paidAmount": 0,
+      "status": "unpaid",
+      "paymentTerms": "Due on Receipt",
+      "workDoneMonth": "Apr-26"
+    },
+    {
+      "id": 1058,
+      "invNo": "GT-064",
+      "date": "2026-04-20T00:00:00.000Z",
+      "dueDate": "2026-05-05T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "32021/28",
+      "description": "Joinery Installation @18",
+      "qty": 1291,
+      "unit": "Hrs",
+      "rate": 18,
+      "amount": 23238,
+      "vatPct": 5,
+      "vat": 1161.9,
+      "total": 24399.9,
+      "paidAmount": 24399.9,
+      "status": "paid",
+      "paymentTerms": "Net 15",
+      "workDoneMonth": "Mar-26"
+    },
+    {
+      "id": 1057,
+      "invNo": "SH-038",
+      "date": "2026-04-02T00:00:00.000Z",
+      "dueDate": "2026-04-02T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 666,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 10656,
+      "vatPct": 5,
+      "vat": 532.8,
+      "total": 11188.8,
+      "paidAmount": 0,
+      "status": "unpaid",
+      "paymentTerms": "Due on Receipt",
+      "workDoneMonth": "Apr-26"
+    },
+    {
+      "id": 1056,
+      "invNo": "GT-063",
+      "date": "2026-03-15T00:00:00.000Z",
+      "dueDate": "2026-03-30T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "32021/27",
+      "description": "Joinery Installation @18",
+      "qty": 1494,
+      "unit": "Hrs",
+      "rate": 18,
+      "amount": 26892,
+      "vatPct": 5,
+      "vat": 1344.6,
+      "total": 28236.6,
+      "paidAmount": 28236.6,
+      "status": "paid",
+      "paymentTerms": "Net 15",
+      "workDoneMonth": "Feb-26"
+    },
+    {
+      "id": 1055,
+      "invNo": "SH-037",
+      "date": "2026-03-02T00:00:00.000Z",
+      "dueDate": "2026-03-02T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 942,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 15072,
+      "vatPct": 5,
+      "vat": 753.6,
+      "total": 15825.6,
+      "paidAmount": 0,
+      "status": "unpaid",
+      "paymentTerms": "Due on Receipt",
+      "workDoneMonth": "Feb-26"
+    },
+    {
+      "id": 1054,
+      "invNo": "GT-062",
+      "date": "2026-02-20T00:00:00.000Z",
+      "dueDate": "2026-03-07T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "32021/26",
+      "description": "Joinery Installation @18",
+      "qty": 1526,
+      "unit": "Hrs",
+      "rate": 18,
+      "amount": 27468,
+      "vatPct": 5,
+      "vat": 1373.4,
+      "total": 28841.4,
+      "paidAmount": 28841.4,
+      "status": "paid",
+      "paymentTerms": "Net 15",
+      "workDoneMonth": "Jan-26"
+    },
+    {
+      "id": 1053,
+      "invNo": "SH-036",
+      "date": "2026-02-05T00:00:00.000Z",
+      "dueDate": "2026-03-07T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1264,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 20224,
+      "vatPct": 5,
+      "vat": 1011.2,
+      "total": 21235.2,
+      "paidAmount": 0,
+      "status": "unpaid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jan-26"
+    },
+    {
+      "id": 1052,
+      "invNo": "VW-010",
+      "date": "2026-01-28T00:00:00.000Z",
+      "dueDate": "2026-02-27T00:00:00.000Z",
+      "client": "VisionWood International LLC",
+      "clientTrn": "100060237300003",
+      "poNumber": "8622373",
+      "description": "Joinery Installation @15",
+      "qty": 150,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 2400,
+      "vatPct": 5,
+      "vat": 120,
+      "total": 2520,
+      "paidAmount": 2520,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Dec-25"
+    },
+    {
+      "id": 1051,
+      "invNo": "GT-061B",
+      "date": "2026-01-10T00:00:00.000Z",
+      "dueDate": "2026-02-09T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "32021/25",
+      "description": "Joinery Installation @18",
+      "qty": 1130,
+      "unit": "Hrs",
+      "rate": 18,
+      "amount": 20340,
+      "vatPct": 5,
+      "vat": 1017,
+      "total": 21357,
+      "paidAmount": 21357,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Dec-25"
+    },
+    {
+      "id": 1050,
+      "invNo": "SH-035",
+      "date": "2026-01-02T00:00:00.000Z",
+      "dueDate": "2026-02-01T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1638,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 26208,
+      "vatPct": 5,
+      "vat": 1310.4,
+      "total": 27518.4,
+      "paidAmount": 0,
+      "status": "unpaid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Dec-25"
+    },
+    {
+      "id": 1049,
+      "invNo": "VW-008",
+      "date": "2025-12-04T00:00:00.000Z",
+      "dueDate": "2026-01-03T00:00:00.000Z",
+      "client": "VisionWood International LLC",
+      "clientTrn": "100060237300003",
+      "poNumber": "8623551",
+      "description": "Joinery Installation @17",
+      "qty": 1055,
+      "unit": "Hrs",
+      "rate": 17,
+      "amount": 17935,
+      "vatPct": 5,
+      "vat": 896.75,
+      "total": 18831.75,
+      "paidAmount": 18831.75,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Nov-25"
+    },
+    {
+      "id": 1048,
+      "invNo": "SH-034",
+      "date": "2025-12-02T00:00:00.000Z",
+      "dueDate": "2026-01-01T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1716,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 27456,
+      "vatPct": 5,
+      "vat": 1372.8,
+      "total": 28828.8,
+      "paidAmount": 13322,
+      "status": "partial",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Nov-25"
+    },
+    {
+      "id": 1047,
+      "invNo": "VW-009",
+      "date": "2025-12-01T00:00:00.000Z",
+      "dueDate": "2025-12-31T00:00:00.000Z",
+      "client": "VisionWood International LLC",
+      "clientTrn": "100060237300003",
+      "poNumber": "8623931",
+      "description": "Joinery Installation @16",
+      "qty": 1364,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 21824,
+      "vatPct": 5,
+      "vat": 1091.2,
+      "total": 22915.2,
+      "paidAmount": 22915.2,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Nov-25"
+    },
+    {
+      "id": 1046,
+      "invNo": "SH-033",
+      "date": "2025-11-01T00:00:00.000Z",
+      "dueDate": "2025-12-01T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1811,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 28976,
+      "vatPct": 5,
+      "vat": 1448.8,
+      "total": 30424.8,
+      "paidAmount": 30424.8,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Oct-25"
+    },
+    {
+      "id": 1045,
+      "invNo": "VW-005R",
+      "date": "2025-10-20T00:00:00.000Z",
+      "dueDate": "2025-11-19T00:00:00.000Z",
+      "client": "VisionWood International LLC",
+      "clientTrn": "100060237300003",
+      "poNumber": "8622373",
+      "description": "Joinery Installation @16",
+      "qty": 2656,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 42496,
+      "vatPct": 5,
+      "vat": 2124.8,
+      "total": 44620.8,
+      "paidAmount": 44620.8,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Sep-25"
+    },
+    {
+      "id": 1044,
+      "invNo": "VW-006",
+      "date": "2025-10-17T00:00:00.000Z",
+      "dueDate": "2025-11-16T00:00:00.000Z",
+      "client": "VisionWood International LLC",
+      "clientTrn": "100060237300003",
+      "poNumber": "8622373",
+      "description": "Joinery Installation @16",
+      "qty": 1050,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 16800,
+      "vatPct": 5,
+      "vat": 840,
+      "total": 17640,
+      "paidAmount": 17640,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Sep-25"
+    },
+    {
+      "id": 1043,
+      "invNo": "SH-032",
+      "date": "2025-10-02T00:00:00.000Z",
+      "dueDate": "2025-11-01T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 2106,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 33696,
+      "vatPct": 5,
+      "vat": 1684.8,
+      "total": 35380.8,
+      "paidAmount": 35380.8,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Sep-25"
+    },
+    {
+      "id": 1042,
+      "invNo": "SH-031",
+      "date": "2025-09-02T00:00:00.000Z",
+      "dueDate": "2025-10-02T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 2831,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 45296,
+      "vatPct": 5,
+      "vat": 2264.8,
+      "total": 47560.8,
+      "paidAmount": 47560.8,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Aug-25"
+    },
+    {
+      "id": 1041,
+      "invNo": "VW-005",
+      "date": "2025-08-19T00:00:00.000Z",
+      "dueDate": "2025-09-18T00:00:00.000Z",
+      "client": "VisionWood International LLC",
+      "clientTrn": "100060237300003",
+      "poNumber": "8620561",
+      "description": "Joinery Installation @16",
+      "qty": 1,
+      "unit": "Hrs",
+      "rate": 21574.5,
+      "amount": 21574.5,
+      "vatPct": 5,
+      "vat": 1078.73,
+      "total": 22653.23,
+      "paidAmount": 22653.23,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jul-25"
+    },
+    {
+      "id": 1040,
+      "invNo": "SH-030",
+      "date": "2025-08-05T00:00:00.000Z",
+      "dueDate": "2025-09-04T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1840.5,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 29448,
+      "vatPct": 5,
+      "vat": 1472.4,
+      "total": 30920.4,
+      "paidAmount": 30920.4,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jul-25"
+    },
+    {
+      "id": 1039,
+      "invNo": "VW-004",
+      "date": "2025-08-01T00:00:00.000Z",
+      "dueDate": "2025-08-31T00:00:00.000Z",
+      "client": "VisionWood International LLC",
+      "clientTrn": "100060237300003",
+      "poNumber": "8620561",
+      "description": "Joinery Installation @16",
+      "qty": 1,
+      "unit": "Hrs",
+      "rate": 6731.7,
+      "amount": 6731.7,
+      "vatPct": 5,
+      "vat": 336.59,
+      "total": 7068.29,
+      "paidAmount": 7068.29,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jul-25"
+    },
+    {
+      "id": 1038,
+      "invNo": "SH-029",
+      "date": "2025-07-05T00:00:00.000Z",
+      "dueDate": "2025-08-04T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1864,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 29824,
+      "vatPct": 5,
+      "vat": 1491.2,
+      "total": 31315.2,
+      "paidAmount": 31315.2,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jun-25"
+    },
+    {
+      "id": 1037,
+      "invNo": "VW-003",
+      "date": "2025-06-13T00:00:00.000Z",
+      "dueDate": "2025-07-13T00:00:00.000Z",
+      "client": "VisionWood International LLC",
+      "clientTrn": "100060237300003",
+      "poNumber": "8620561",
+      "description": "Joinery Installation-Contract",
+      "qty": 1,
+      "unit": "Hrs",
+      "rate": 46155.45,
+      "amount": 46155.45,
+      "vatPct": 5,
+      "vat": 2307.77,
+      "total": 48463.22,
+      "paidAmount": 48463.22,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "May-25"
+    },
+    {
+      "id": 1036,
+      "invNo": "SH-028",
+      "date": "2025-06-05T00:00:00.000Z",
+      "dueDate": "2025-07-05T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 2144,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 34304,
+      "vatPct": 5,
+      "vat": 1715.2,
+      "total": 36019.2,
+      "paidAmount": 36019.2,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "May-25"
+    },
+    {
+      "id": 1035,
+      "invNo": "SH-027",
+      "date": "2025-05-05T00:00:00.000Z",
+      "dueDate": "2025-06-04T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 2024,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 32384,
+      "vatPct": 5,
+      "vat": 1619.2,
+      "total": 34003.2,
+      "paidAmount": 34003.2,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Apr-25"
+    },
+    {
+      "id": 1034,
+      "invNo": "SH-026",
+      "date": "2025-04-05T00:00:00.000Z",
+      "dueDate": "2025-05-05T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1460,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 23360,
+      "vatPct": 5,
+      "vat": 1168,
+      "total": 24528,
+      "paidAmount": 24528,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Mar-25"
+    },
+    {
+      "id": 1033,
+      "invNo": "SH-025",
+      "date": "2025-03-05T00:00:00.000Z",
+      "dueDate": "2025-03-05T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1680,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 26880,
+      "vatPct": 5,
+      "vat": 1344,
+      "total": 28224,
+      "paidAmount": 28224,
+      "status": "paid",
+      "paymentTerms": "Due on Receipt",
+      "workDoneMonth": "Feb-25"
+    },
+    {
+      "id": 1032,
+      "invNo": "VW-002",
+      "date": "2025-02-23T00:00:00.000Z",
+      "dueDate": "2025-03-25T00:00:00.000Z",
+      "client": "VisionWood International LLC",
+      "clientTrn": "100060237300003",
+      "poNumber": "8620561",
+      "description": "Joinery Installation-Contract",
+      "qty": 1,
+      "unit": "Hrs",
+      "rate": 29580.99,
+      "amount": 29580.99,
+      "vatPct": 5,
+      "vat": 1479.05,
+      "total": 31060.04,
+      "paidAmount": 31060.04,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jan-25"
+    },
+    {
+      "id": 1031,
+      "invNo": "SH-024",
+      "date": "2025-02-05T00:00:00.000Z",
+      "dueDate": "2025-03-07T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @30",
+      "qty": 2200,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 35200,
+      "vatPct": 5,
+      "vat": 1760,
+      "total": 36960,
+      "paidAmount": 36960,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jan-25"
+    },
+    {
+      "id": 1030,
+      "invNo": "VW-001",
+      "date": "2025-01-28T00:00:00.000Z",
+      "dueDate": "2025-02-27T00:00:00.000Z",
+      "client": "VisionWood International LLC",
+      "clientTrn": "100060237300003",
+      "poNumber": "8620561",
+      "description": "Joinery Installation-Contract",
+      "qty": 1,
+      "unit": "Hrs",
+      "rate": 10461.82,
+      "amount": 10461.82,
+      "vatPct": 5,
+      "vat": 523.09,
+      "total": 10984.91,
+      "paidAmount": 10984.91,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Dec-24"
+    },
+    {
+      "id": 1029,
+      "invNo": "GT-061A",
+      "date": "2025-01-14T00:00:00.000Z",
+      "dueDate": "2025-02-13T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @18",
+      "qty": 719,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 11504,
+      "vatPct": 5,
+      "vat": 575.2,
+      "total": 12079.2,
+      "paidAmount": 12079.2,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Aug-24"
+    },
+    {
+      "id": 1028,
+      "invNo": "SH-023",
+      "date": "2025-01-05T00:00:00.000Z",
+      "dueDate": "2025-02-04T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 2193,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 35088,
+      "vatPct": 5,
+      "vat": 1754.4,
+      "total": 36842.4,
+      "paidAmount": 36842.4,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Dec-24"
+    },
+    {
+      "id": 1027,
+      "invNo": "GT-060",
+      "date": "2024-12-11T00:00:00.000Z",
+      "dueDate": "2025-01-10T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 1995,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 31920,
+      "vatPct": 5,
+      "vat": 1596,
+      "total": 33516,
+      "paidAmount": 33516,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Nov-24"
+    },
+    {
+      "id": 1026,
+      "invNo": "SH-022",
+      "date": "2024-12-05T00:00:00.000Z",
+      "dueDate": "2025-01-04T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1842,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 29472,
+      "vatPct": 5,
+      "vat": 1473.6,
+      "total": 30945.6,
+      "paidAmount": 30945.6,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Nov-24"
+    },
+    {
+      "id": 1025,
+      "invNo": "GT-059",
+      "date": "2024-11-11T00:00:00.000Z",
+      "dueDate": "2024-12-11T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 1856,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 29696,
+      "vatPct": 5,
+      "vat": 1484.8,
+      "total": 31180.8,
+      "paidAmount": 31180.8,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Oct-24"
+    },
+    {
+      "id": 1024,
+      "invNo": "SH-021",
+      "date": "2024-11-05T00:00:00.000Z",
+      "dueDate": "2024-12-05T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1788,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 28608,
+      "vatPct": 5,
+      "vat": 1430.4,
+      "total": 30038.4,
+      "paidAmount": 30038.4,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Oct-24"
+    },
+    {
+      "id": 1023,
+      "invNo": "SH-020",
+      "date": "2024-10-05T00:00:00.000Z",
+      "dueDate": "2024-11-04T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1488,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 23808,
+      "vatPct": 5,
+      "vat": 1190.4,
+      "total": 24998.4,
+      "paidAmount": 24998.4,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Sep-24"
+    },
+    {
+      "id": 1022,
+      "invNo": "GT-058",
+      "date": "2024-09-11T00:00:00.000Z",
+      "dueDate": "2024-10-11T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 1980,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 31680,
+      "vatPct": 5,
+      "vat": 1584,
+      "total": 33264,
+      "paidAmount": 33264,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Aug-24"
+    },
+    {
+      "id": 1021,
+      "invNo": "GT-057",
+      "date": "2024-09-11T00:00:00.000Z",
+      "dueDate": "2024-10-11T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 2130,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 34080,
+      "vatPct": 5,
+      "vat": 1704,
+      "total": 35784,
+      "paidAmount": 35784,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Aug-24"
+    },
+    {
+      "id": 1020,
+      "invNo": "SH-019",
+      "date": "2024-09-05T00:00:00.000Z",
+      "dueDate": "2024-10-05T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1480,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 23680,
+      "vatPct": 5,
+      "vat": 1184,
+      "total": 24864,
+      "paidAmount": 24864,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Aug-24"
+    },
+    {
+      "id": 1019,
+      "invNo": "GT-056",
+      "date": "2024-08-11T00:00:00.000Z",
+      "dueDate": "2024-09-10T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 2120,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 33920,
+      "vatPct": 5,
+      "vat": 1696,
+      "total": 35616,
+      "paidAmount": 35616,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jul-24"
+    },
+    {
+      "id": 1018,
+      "invNo": "SH-018",
+      "date": "2024-08-05T00:00:00.000Z",
+      "dueDate": "2024-09-04T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1440,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 23040,
+      "vatPct": 5,
+      "vat": 1152,
+      "total": 24192,
+      "paidAmount": 24192,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jul-24"
+    },
+    {
+      "id": 1017,
+      "invNo": "GT-055",
+      "date": "2024-07-11T00:00:00.000Z",
+      "dueDate": "2024-08-10T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 1590,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 25440,
+      "vatPct": 5,
+      "vat": 1272,
+      "total": 26712,
+      "paidAmount": 26712,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jun-24"
+    },
+    {
+      "id": 1016,
+      "invNo": "SH-017",
+      "date": "2024-07-05T00:00:00.000Z",
+      "dueDate": "2024-08-04T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1258,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 20128,
+      "vatPct": 5,
+      "vat": 1006.4,
+      "total": 21134.4,
+      "paidAmount": 21134.4,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jun-24"
+    },
+    {
+      "id": 1015,
+      "invNo": "SH-016",
+      "date": "2024-06-12T00:00:00.000Z",
+      "dueDate": "2024-07-12T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1169,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 18704,
+      "vatPct": 5,
+      "vat": 935.2,
+      "total": 19639.2,
+      "paidAmount": 19639.2,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "May-24"
+    },
+    {
+      "id": 1014,
+      "invNo": "GT-054",
+      "date": "2024-06-11T00:00:00.000Z",
+      "dueDate": "2024-07-11T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 1774,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 28384,
+      "vatPct": 5,
+      "vat": 1419.2,
+      "total": 29803.2,
+      "paidAmount": 29803.2,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "May-24"
+    },
+    {
+      "id": 1013,
+      "invNo": "SH-015",
+      "date": "2024-05-12T00:00:00.000Z",
+      "dueDate": "2024-06-11T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 308,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 4928,
+      "vatPct": 5,
+      "vat": 246.4,
+      "total": 5174.4,
+      "paidAmount": 5174.4,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Apr-24"
+    },
+    {
+      "id": 1012,
+      "invNo": "GT-053",
+      "date": "2024-05-11T00:00:00.000Z",
+      "dueDate": "2024-06-10T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 1387.5,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 22200,
+      "vatPct": 5,
+      "vat": 1110,
+      "total": 23310,
+      "paidAmount": 23310,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Apr-24"
+    },
+    {
+      "id": 1011,
+      "invNo": "GT-052",
+      "date": "2024-04-11T00:00:00.000Z",
+      "dueDate": "2024-05-11T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 2473,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 39568,
+      "vatPct": 5,
+      "vat": 1978.4,
+      "total": 41546.4,
+      "paidAmount": 41546.4,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Mar-24"
+    },
+    {
+      "id": 1010,
+      "invNo": "GT-051",
+      "date": "2024-03-11T00:00:00.000Z",
+      "dueDate": "2024-04-10T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 2300,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 36800,
+      "vatPct": 5,
+      "vat": 1840,
+      "total": 38640,
+      "paidAmount": 38640,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Feb-24"
+    },
+    {
+      "id": 1009,
+      "invNo": "SH-014",
+      "date": "2024-02-23T00:00:00.000Z",
+      "dueDate": "2024-03-24T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 904,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 14464,
+      "vatPct": 5,
+      "vat": 723.2,
+      "total": 15187.2,
+      "paidAmount": 15187.2,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jan-24"
+    },
+    {
+      "id": 1008,
+      "invNo": "GT-050",
+      "date": "2024-02-10T00:00:00.000Z",
+      "dueDate": "2024-03-11T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 1527,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 24432,
+      "vatPct": 5,
+      "vat": 1221.6,
+      "total": 25653.6,
+      "paidAmount": 25653.6,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jan-24"
+    },
+    {
+      "id": 1007,
+      "invNo": "SH-013",
+      "date": "2024-02-03T00:00:00.000Z",
+      "dueDate": "2024-03-04T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1938,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 31008,
+      "vatPct": 5,
+      "vat": 1550.4,
+      "total": 32558.4,
+      "paidAmount": 32558.4,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Jan-24"
+    },
+    {
+      "id": 1006,
+      "invNo": "GT-049",
+      "date": "2024-01-20T00:00:00.000Z",
+      "dueDate": "2024-02-19T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 1489.5,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 23832,
+      "vatPct": 5,
+      "vat": 1191.6,
+      "total": 25023.6,
+      "paidAmount": 25023.6,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Dec-23"
+    },
+    {
+      "id": 1005,
+      "invNo": "SH-012",
+      "date": "2024-01-03T00:00:00.000Z",
+      "dueDate": "2024-02-02T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 1988,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 31808,
+      "vatPct": 5,
+      "vat": 1590.4,
+      "total": 33398.4,
+      "paidAmount": 33398.4,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Dec-23"
+    },
+    {
+      "id": 1004,
+      "invNo": "GT-048",
+      "date": "2023-12-27T00:00:00.000Z",
+      "dueDate": "2024-01-26T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 1579,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 25264,
+      "vatPct": 5,
+      "vat": 1263.2,
+      "total": 26527.2,
+      "paidAmount": 26527.2,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Nov-23"
+    },
+    {
+      "id": 1003,
+      "invNo": "SH-011",
+      "date": "2023-12-03T00:00:00.000Z",
+      "dueDate": "2024-01-02T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 2436,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 38976,
+      "vatPct": 5,
+      "vat": 1948.8,
+      "total": 40924.8,
+      "paidAmount": 40924.8,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Nov-23"
+    },
+    {
+      "id": 1002,
+      "invNo": "GT-047",
+      "date": "2023-11-10T00:00:00.000Z",
+      "dueDate": "2023-12-10T00:00:00.000Z",
+      "client": "Golden Tower Metal Industries LLC",
+      "clientTrn": "100388655100003",
+      "poNumber": "8220/18",
+      "description": "Joinery Installation @16",
+      "qty": 1934,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 30944,
+      "vatPct": 5,
+      "vat": 1547.2,
+      "total": 32491.2,
+      "paidAmount": 32491.2,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Oct-23"
+    },
+    {
+      "id": 1001,
+      "invNo": "SH-010",
+      "date": "2023-11-03T00:00:00.000Z",
+      "dueDate": "2023-12-03T00:00:00.000Z",
+      "client": "Sharif Carpentry and Decor LLC",
+      "clientTrn": "100056205600003",
+      "poNumber": "5112",
+      "description": "Joinery Installation @16",
+      "qty": 2562,
+      "unit": "Hrs",
+      "rate": 16,
+      "amount": 40992,
+      "vatPct": 5,
+      "vat": 2049.6,
+      "total": 43041.6,
+      "paidAmount": 43041.6,
+      "status": "paid",
+      "paymentTerms": "Net 30",
+      "workDoneMonth": "Oct-23"
+    }
+  ],
+  "coa": [
+    {
+      "code": "4101",
+      "name": "Joinery Installation Income",
+      "type": "Income",
+      "sub": "Project Revenue"
+    },
+    {
+      "code": "4201",
+      "name": "Other Income & Receipts",
+      "type": "Income",
+      "sub": "Other"
+    },
+    {
+      "code": "5001",
+      "name": "Purchases",
+      "type": "Expense",
+      "sub": "Cost of Sales"
+    },
+    {
+      "code": "5002",
+      "name": "Purchases - Materials",
+      "type": "Expense",
+      "sub": "Cost of Sales"
+    },
+    {
+      "code": "4501",
+      "name": "Cost of Goods Sold",
+      "type": "Expense",
+      "sub": "COGS"
+    },
+    {
+      "code": "6601",
+      "name": "Office Rent",
+      "type": "Expense",
+      "sub": "Premises"
+    },
+    {
+      "code": "BADF",
+      "name": "Bad Debt",
+      "type": "Expense",
+      "sub": "Other"
+    },
+    {
+      "code": "EXGL",
+      "name": "Exchange Gain or Loss",
+      "type": "Expense",
+      "sub": "Finance"
+    },
+    {
+      "code": "A001",
+      "name": "Accounts Receivable",
+      "type": "Asset",
+      "sub": "Receivables"
+    },
+    {
+      "code": "A002",
+      "name": "Input VAT",
+      "type": "Asset",
+      "sub": "Tax"
+    },
+    {
+      "code": "A003",
+      "name": "Prepaid Expenses",
+      "type": "Asset",
+      "sub": "Current Assets"
+    },
+    {
+      "code": "A004",
+      "name": "Advance Tax",
+      "type": "Asset",
+      "sub": "Current Assets"
+    },
+    {
+      "code": "A005",
+      "name": "Employee Advance",
+      "type": "Asset",
+      "sub": "Current Assets"
+    },
+    {
+      "code": "A006",
+      "name": "Inventory Asset",
+      "type": "Asset",
+      "sub": "Stock"
+    },
+    {
+      "code": "A007",
+      "name": "Furniture and Equipment",
+      "type": "Asset",
+      "sub": "Fixed Assets"
+    },
+    {
+      "code": "B001",
+      "name": "Bank_CS",
+      "type": "Asset",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "B002",
+      "name": "Bank_PJ",
+      "type": "Asset",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "B003",
+      "name": "Bank_RK",
+      "type": "Asset",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "B004",
+      "name": "Mashreq_Cash",
+      "type": "Liability",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "B005",
+      "name": "Mashreq_Main",
+      "type": "Liability",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "B007",
+      "name": "Petty Cash",
+      "type": "Asset",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "B008",
+      "name": "PettyCash_PJ",
+      "type": "Asset",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "B009",
+      "name": "Undeposited Funds",
+      "type": "Asset",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "B010",
+      "name": "RK_Cash",
+      "type": "Asset",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "B011",
+      "name": "PJ_Cash",
+      "type": "Asset",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "B012",
+      "name": "PG_Cash",
+      "type": "Asset",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "B013",
+      "name": "RA_Cash",
+      "type": "Asset",
+      "sub": "Cash & Bank"
+    },
+    {
+      "code": "L001",
+      "name": "Accounts Payable",
+      "type": "Liability",
+      "sub": "Payables"
+    },
+    {
+      "code": "L002",
+      "name": "Output VAT",
+      "type": "Liability",
+      "sub": "Tax"
+    },
+    {
+      "code": "L003",
+      "name": "VAT Payable",
+      "type": "Liability",
+      "sub": "Tax"
+    },
+    {
+      "code": "L004",
+      "name": "Employee Reimbursements",
+      "type": "Liability",
+      "sub": "Current"
+    },
+    {
+      "code": "L005",
+      "name": "Unearned Revenue",
+      "type": "Liability",
+      "sub": "Current"
+    },
+    {
+      "code": "L006",
+      "name": "Opening Balance Adjustments",
+      "type": "Liability",
+      "sub": "Other"
+    },
+    {
+      "code": "E001",
+      "name": "Drawings",
+      "type": "Equity",
+      "sub": "Equity"
+    },
+    {
+      "code": "E002",
+      "name": "Owner's Equity",
+      "type": "Equity",
+      "sub": "Equity"
+    },
+    {
+      "code": "E003",
+      "name": "Retained Earnings",
+      "type": "Equity",
+      "sub": "Equity"
+    },
+    {
+      "code": "E004",
+      "name": "Opening Balance Offset",
+      "type": "Equity",
+      "sub": "Equity"
+    },
+    {
+      "code": "S001",
+      "name": "Suspense",
+      "type": "Asset",
+      "sub": "Suspense"
+    },
+    {
+      "code": "6501",
+      "name": "VAT Payment to FTA",
+      "type": "Liability",
+      "sub": "Tax & Statutory"
+    },
+    {
+      "code": "2101",
+      "name": "VAT Payment to FTA",
+      "type": "Liability",
+      "sub": "Tax & Statutory"
+    },
+    {
+      "code": "2201",
+      "name": "Credit Card EPP/Installment Principal",
+      "type": "Liability",
+      "sub": "Clearing & Debt"
+    },
+    {
+      "code": "2202",
+      "name": "Personal - Credit Card EPP/EMI",
+      "type": "Liability",
+      "sub": "Clearing & Debt"
+    },
+    {
+      "code": "5101",
+      "name": "Staff Salaries",
+      "type": "Expense",
+      "sub": "Payroll"
+    },
+    {
+      "code": "5102",
+      "name": "Staff Allowances & Benefits",
+      "type": "Expense",
+      "sub": "Payroll"
+    },
+    {
+      "code": "5107",
+      "name": "Visa & Immigration Fees - Staff",
+      "type": "Expense",
+      "sub": "Payroll"
+    },
+    {
+      "code": "5110",
+      "name": "Staff Health & Medical",
+      "type": "Expense",
+      "sub": "Payroll"
+    },
+    {
+      "code": "6102",
+      "name": "Printing & Stationery",
+      "type": "Expense",
+      "sub": "Admin"
+    },
+    {
+      "code": "6103",
+      "name": "Business Gifts & Client Entertainment",
+      "type": "Expense",
+      "sub": "Admin"
+    },
+    {
+      "code": "6104",
+      "name": "Licensing & Government Fees",
+      "type": "Expense",
+      "sub": "Admin"
+    },
+    {
+      "code": "6201",
+      "name": "Vehicle Fuel - Business",
+      "type": "Expense",
+      "sub": "Vehicle"
+    },
+    {
+      "code": "6202",
+      "name": "Vehicle Maintenance - Business",
+      "type": "Expense",
+      "sub": "Vehicle"
+    },
+    {
+      "code": "6204",
+      "name": "Vehicle Repair - Business",
+      "type": "Expense",
+      "sub": "Vehicle"
+    },
+    {
+      "code": "6206",
+      "name": "Salik Road Toll - Business",
+      "type": "Expense",
+      "sub": "Vehicle"
+    },
+    {
+      "code": "6207",
+      "name": "Vehicle Fines - Business",
+      "type": "Expense",
+      "sub": "Vehicle"
+    },
+    {
+      "code": "6301",
+      "name": "Air Travel - Business",
+      "type": "Expense",
+      "sub": "Travel & Conveyance"
+    },
+    {
+      "code": "6302",
+      "name": "Local Conveyance - Business",
+      "type": "Expense",
+      "sub": "Travel & Conveyance"
+    },
+    {
+      "code": "6303",
+      "name": "Taxi & Parking - Business",
+      "type": "Expense",
+      "sub": "Travel & Conveyance"
+    },
+    {
+      "code": "6401",
+      "name": "Electricity - Business Premises",
+      "type": "Expense",
+      "sub": "Premises & Utilities"
+    },
+    {
+      "code": "6403",
+      "name": "Mobile & Telecom - Business",
+      "type": "Expense",
+      "sub": "Premises & Utilities"
+    },
+    {
+      "code": "6701",
+      "name": "Grocery - Business Premises",
+      "type": "Expense",
+      "sub": "Premises & Utilities"
+    },
+    {
+      "code": "6901",
+      "name": "Refunds & Reversals",
+      "type": "Expense",
+      "sub": "Clearing & Debt"
+    },
+    {
+      "code": "6902",
+      "name": "Miscellaneous Business Expenses",
+      "type": "Expense",
+      "sub": "Other Business"
+    },
+    {
+      "code": "7002",
+      "name": "General Maintenance & Repairs",
+      "type": "Expense",
+      "sub": "Maintenance & Equipment"
+    },
+    {
+      "code": "7003",
+      "name": "Tools & Equipment",
+      "type": "Expense",
+      "sub": "Maintenance & Equipment"
+    },
+    {
+      "code": "7101",
+      "name": "Bank Fees & Charges",
+      "type": "Expense",
+      "sub": "Finance Costs"
+    },
+    {
+      "code": "9100",
+      "name": "Personal - General",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9101",
+      "name": "Personal - Grocery & Household",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9102",
+      "name": "Personal - Food & Dining",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9103",
+      "name": "Personal - Shopping & Lifestyle",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9104",
+      "name": "Personal - Medical & Pharmacy",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9105",
+      "name": "Personal - Travel & Conveyance",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9109",
+      "name": "Personal - Air Travel",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9110",
+      "name": "Personal - Amazon Shopping",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9111",
+      "name": "Personal - Subscriptions & Software",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9114",
+      "name": "Personal - Vehicle Maintenance",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9115",
+      "name": "Personal - Parking & Salik",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9116",
+      "name": "Personal - Drinking Water",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9118",
+      "name": "Personal - House Rent",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9119",
+      "name": "Personal - Staff/Helper & Services",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9121",
+      "name": "Bank & Card Annual Fees",
+      "type": "Equity",
+      "sub": "Finance Costs"
+    },
+    {
+      "code": "9122",
+      "name": "Personal - Insurance",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9123",
+      "name": "Personal - Government/RTA Services",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9124",
+      "name": "Personal - Grocery & Household - Misc",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9125",
+      "name": "Personal - Restaurants & Cafes - Misc",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9126",
+      "name": "Personal - Auto/Vehicle - Misc",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9127",
+      "name": "Personal - Home Improvement & Hardware",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9128",
+      "name": "Personal - Shopping & Department Stores - Misc",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9129",
+      "name": "Personal - Flowers & Gifts",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9130",
+      "name": "Personal - Printing/Typing & Personal Services",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9131",
+      "name": "Personal - Travel/Taxi - Misc",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9132",
+      "name": "Personal - Entertainment & Leisure",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9133",
+      "name": "Personal - Other Small Purchases",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9999",
+      "name": "Personal - Miscellaneous - Unclassified",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "5109",
+      "name": "Staff Local Transport",
+      "type": "Expense",
+      "sub": "Staff"
+    },
+    {
+      "code": "5104",
+      "name": "Medical Insurance - Staff",
+      "type": "Expense",
+      "sub": "Staff"
+    },
+    {
+      "code": "5105",
+      "name": "Workmen / Labour Insurance",
+      "type": "Expense",
+      "sub": "Staff"
+    },
+    {
+      "code": "5106",
+      "name": "Medical Fitness - Staff",
+      "type": "Expense",
+      "sub": "Staff"
+    },
+    {
+      "code": "5204",
+      "name": "Staff Accommodation Rent",
+      "type": "Expense",
+      "sub": "Staff"
+    },
+    {
+      "code": "6101",
+      "name": "Office Supplies",
+      "type": "Expense",
+      "sub": "Office"
+    },
+    {
+      "code": "6105",
+      "name": "Post & Courier",
+      "type": "Expense",
+      "sub": "Office"
+    },
+    {
+      "code": "6106",
+      "name": "Bank & Card Annual Fees (Business)",
+      "type": "Expense",
+      "sub": "Finance"
+    },
+    {
+      "code": "6203",
+      "name": "Vehicle Tyres - Business",
+      "type": "Expense",
+      "sub": "Vehicle"
+    },
+    {
+      "code": "6205",
+      "name": "Vehicle Registration & Insurance",
+      "type": "Expense",
+      "sub": "Vehicle"
+    },
+    {
+      "code": "6402",
+      "name": "Internet & Telecom - Business",
+      "type": "Expense",
+      "sub": "Premises"
+    },
+    {
+      "code": "6602",
+      "name": "Office Rent - Secondary",
+      "type": "Expense",
+      "sub": "Premises"
+    },
+    {
+      "code": "6801",
+      "name": "Software Subscriptions - Business",
+      "type": "Expense",
+      "sub": "IT"
+    },
+    {
+      "code": "6802",
+      "name": "IT Hardware & Accessories",
+      "type": "Expense",
+      "sub": "IT"
+    },
+    {
+      "code": "8100",
+      "name": "Business Gifts - Finance",
+      "type": "Expense",
+      "sub": "Finance"
+    },
+    {
+      "code": "9106",
+      "name": "Personal - Home Electricity",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9107",
+      "name": "Personal - Mobile & Utilities",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9113",
+      "name": "Personal - Vehicle Fuel",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9117",
+      "name": "Personal - Miscellaneous",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "9120",
+      "name": "Personal - Visa & Immigration",
+      "type": "Equity",
+      "sub": "Personal"
+    },
+    {
+      "code": "OTEX",
+      "name": "Other Expenses",
+      "type": "Expense",
+      "sub": "Other"
+    },
+    {
+      "code": "4102",
+      "name": "Carpentry & Joinery Sales",
+      "type": "Income",
+      "sub": "Project Revenue"
+    },
+    {
+      "code": "4103",
+      "name": "Interior Fit-Out Projects",
+      "type": "Income",
+      "sub": "Project Revenue"
+    },
+    {
+      "code": "4104",
+      "name": "Custom Furniture Fabrication",
+      "type": "Income",
+      "sub": "Project Revenue"
+    },
+    {
+      "code": "4202",
+      "name": "Scrap & Waste Material Sales",
+      "type": "Income",
+      "sub": "Other Revenue"
+    },
+    {
+      "code": "4203",
+      "name": "Interest & Investment Yields",
+      "type": "Income",
+      "sub": "Other Revenue"
+    },
+    {
+      "code": "5003",
+      "name": "Direct Subcontractor Charges",
+      "type": "Expense",
+      "sub": "Cost of Sales"
+    },
+    {
+      "code": "5004",
+      "name": "Freight & Custom Duty Clearance",
+      "type": "Expense",
+      "sub": "Cost of Sales"
+    },
+    {
+      "code": "5005",
+      "name": "Factory Consumables & Adhesives",
+      "type": "Expense",
+      "sub": "Cost of Sales"
+    },
+    {
+      "code": "5006",
+      "name": "Site Machinery & Scaffolding Rental",
+      "type": "Expense",
+      "sub": "Cost of Sales"
+    },
+    {
+      "code": "5103",
+      "name": "End of Service Gratuity Expense",
+      "type": "Expense",
+      "sub": "Payroll"
+    },
+    {
+      "code": "5108",
+      "name": "Employee Recruitment & Agency Fees",
+      "type": "Expense",
+      "sub": "Payroll"
+    },
+    {
+      "code": "5111",
+      "name": "Occupational Safety & PPE Gear",
+      "type": "Expense",
+      "sub": "Payroll"
+    },
+    {
+      "code": "6107",
+      "name": "Digital Marketing & Advertising",
+      "type": "Expense",
+      "sub": "Marketing & Sales"
+    },
+    {
+      "code": "6108",
+      "name": "Exhibitions & Sample Mockups",
+      "type": "Expense",
+      "sub": "Marketing & Sales"
+    },
+    {
+      "code": "6109",
+      "name": "Sales Commissions & Referral Fees",
+      "type": "Expense",
+      "sub": "Marketing & Sales"
+    },
+    {
+      "code": "6110",
+      "name": "Legal & Corporate Advisory Fees",
+      "type": "Expense",
+      "sub": "Professional Fees"
+    },
+    {
+      "code": "6111",
+      "name": "Audit & External Accounting Fees",
+      "type": "Expense",
+      "sub": "Professional Fees"
+    },
+    {
+      "code": "6112",
+      "name": "Architectural & Engineering Fees",
+      "type": "Expense",
+      "sub": "Professional Fees"
+    },
+    {
+      "code": "6404",
+      "name": "Water & Waste Services - Premises",
+      "type": "Expense",
+      "sub": "Premises & Utilities"
+    },
+    {
+      "code": "6803",
+      "name": "Cloud Hosting & Domain Services",
+      "type": "Expense",
+      "sub": "IT & Software"
+    },
+    {
+      "code": "6804",
+      "name": "ERP & Accounting Software Licenses",
+      "type": "Expense",
+      "sub": "IT & Software"
+    },
+    {
+      "code": "7102",
+      "name": "Commercial Property & Fire Insurance",
+      "type": "Expense",
+      "sub": "Finance & Insurance"
+    },
+    {
+      "code": "7103",
+      "name": "Marine & Cargo Transit Insurance",
+      "type": "Expense",
+      "sub": "Finance & Insurance"
+    },
+    {
+      "code": "7104",
+      "name": "Bank Interest & Overdraft Expense",
+      "type": "Expense",
+      "sub": "Finance & Insurance"
+    }
+  ],
+  "rules": [],
+  "companyName": "Cherry Soft Interiors L.L.C",
+  "trn": "100011693700003"
+}
+  </script>
+
+  <script>
+    const APP_DATA = JSON.parse(document.getElementById('embedded-accounting-data').textContent);
+    
+    function fmt(val) {
+      return (Number(val) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' AED';
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('nav button').forEach(b => {
+        b.className = 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white';
+      });
+      document.getElementById('tab-' + tab).className = 'px-3 py-1.5 rounded-lg bg-indigo-600 text-white';
+
+      const area = document.getElementById('content-area');
+      if (tab === 'dashboard') renderDashboard(area);
+      else if (tab === 'vat') renderVat(area);
+      else if (tab === 'txns') renderTxns(area);
+      else if (tab === 'invoices') renderInvoices(area);
+      else if (tab === 'pl') renderPL(area);
+    }
+
+    function renderDashboard(el) {
+      const totalInv = APP_DATA.invoices.reduce((s, i) => s + (i.total || 0), 0);
+      const totalPaid = APP_DATA.invoices.reduce((s, i) => s + (i.paidAmount || 0), 0);
+      const ftaPayments = APP_DATA.txns.filter(t => /federal tax authority|fta|6501/i.test(t.description + t.contraAccount));
+      const totalFta = ftaPayments.reduce((s, t) => s + Math.abs(t.amount || 0), 0);
+
+      el.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <div class="text-xs uppercase text-slate-400 font-bold">Total Invoiced</div>
+            <div class="text-xl font-black text-emerald-400 mt-1">${fmt(totalInv)}</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <div class="text-xs uppercase text-slate-400 font-bold">Payments Received</div>
+            <div class="text-xl font-black text-indigo-400 mt-1">${fmt(totalPaid)}</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <div class="text-xs uppercase text-slate-400 font-bold">A/R Outstanding</div>
+            <div class="text-xl font-black text-amber-400 mt-1">${fmt(totalInv - totalPaid)}</div>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <div class="text-xs uppercase text-slate-400 font-bold">FTA Payments Reconciled</div>
+            <div class="text-xl font-black text-rose-400 mt-1">${fmt(totalFta)}</div>
+          </div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+          <h2 class="text-base font-bold text-white mb-2">Standalone Offline Archive Notice</h2>
+          <p class="text-xs text-slate-400">
+            This is a self-contained, offline HTML file containing complete company books for ${APP_DATA.companyName}.
+            You can double-click this file on any computer, tablet, or phone, or upload it to GitHub Pages.
+          </p>
+        </div>
+      `;
+    }
+
+    function renderVat(el) {
+      const ftaPayments = APP_DATA.txns.filter(t => /federal tax authority|fta|6501/i.test(t.description + t.contraAccount));
+      let rows = ftaPayments.map(t => `
+        <tr class="border-b border-slate-800 text-xs">
+          <td class="p-3">${t.date ? t.date.slice(0, 10) : ''}</td>
+          <td class="p-3 font-semibold text-slate-200">${t.description}</td>
+          <td class="p-3 font-mono text-slate-400">${t.sourceAccount}</td>
+          <td class="p-3 font-mono text-emerald-400 font-bold text-right">${fmt(Math.abs(t.amount))}</td>
+        </tr>
+      `).join('');
+
+      el.innerHTML = `
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+          <div class="p-4 bg-slate-800/60 border-b border-slate-700">
+            <h2 class="font-bold text-sm text-white">Reconciled Federal Tax Authority (FTA) Payments</h2>
+          </div>
+          <table class="w-full text-left">
+            <thead class="bg-slate-950 text-slate-400 text-xs">
+              <tr>
+                <th class="p-3">Date</th><th>Description</th><th>Source Account</th><th class="p-3 text-right">Settled Amount</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderTxns(el) {
+      let rows = APP_DATA.txns.slice(0, 100).map(t => `
+        <tr class="border-b border-slate-800 text-xs hover:bg-slate-800/40">
+          <td class="p-2.5">${t.date ? t.date.slice(0, 10) : ''}</td>
+          <td class="p-2.5 font-semibold text-slate-200">${t.description}</td>
+          <td class="p-2.5 font-mono text-indigo-300">${t.contraAccount}</td>
+          <td class="p-2.5 font-mono text-right ${t.amount >= 0 ? 'text-emerald-400' : 'text-slate-100'} font-semibold">${fmt(t.amount)}</td>
+        </tr>
+      `).join('');
+
+      el.innerHTML = `
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+          <table class="w-full text-left">
+            <thead class="bg-slate-950 text-slate-400 text-xs">
+              <tr><th class="p-3">Date</th><th class="p-3">Description</th><th class="p-3">Account</th><th class="p-3 text-right">Amount</th></tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderInvoices(el) {
+      let rows = APP_DATA.invoices.map(i => `
+        <tr class="border-b border-slate-800 text-xs">
+          <td class="p-3 font-mono font-bold text-indigo-400">${i.invNo}</td>
+          <td class="p-3">${i.date ? i.date.slice(0, 10) : ''}</td>
+          <td class="p-3 font-semibold text-slate-200">${i.client}</td>
+          <td class="p-3 font-mono text-right font-bold text-slate-100">${fmt(i.total)}</td>
+          <td class="p-3 text-center"><span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-indigo-950 text-indigo-300">${i.status}</span></td>
+        </tr>
+      `).join('');
+
+      el.innerHTML = `
+        <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+          <table class="w-full text-left">
+            <thead class="bg-slate-950 text-slate-400 text-xs">
+              <tr><th class="p-3">Invoice #</th><th class="p-3">Date</th><th class="p-3">Client</th><th class="p-3 text-right">Total</th><th class="p-3 text-center">Status</th></tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderPL(el) {
+      el.innerHTML = `
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+          <h2 class="text-base font-bold text-white mb-4">Summary Profit & Loss</h2>
+          <p class="text-xs text-slate-400">Total project and joinery installations revenue is documented across all confirmed invoices and project deposits.</p>
+        </div>
+      `;
+    }
+
+    function downloadJsonData() {
+      const blob = new Blob([JSON.stringify(APP_DATA, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = APP_DATA.companyName.replace(/\s+/g, '_') + '_Backup.json';
+      a.click();
+    }
+
+    // Initialize
+    switchTab('dashboard');
+  </script>
+</body>
+</html>
